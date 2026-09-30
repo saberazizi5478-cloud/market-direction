@@ -17,14 +17,13 @@
       font-family: Tahoma, Arial, sans-serif;
       background: #0b0f14;
       color: #fff;
-      display: flex;
-      justify-content: center;
       padding: 20px;
     }
 
     .container {
       width: 100%;
-      max-width: 700px;
+      max-width: 720px;
+      margin: auto;
     }
 
     .header {
@@ -48,31 +47,25 @@
       border-radius: 18px;
       padding: 20px;
       margin-bottom: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
     }
 
-    .coin {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .coin-name {
-      font-size: 22px;
+    .section-title {
+      font-size: 17px;
       font-weight: bold;
+      margin-bottom: 15px;
     }
 
-    .status {
-      font-size: 13px;
-      color: #8d98a5;
-    }
-
-    .price {
+    .btc-price {
       text-align: center;
       font-size: 36px;
       font-weight: bold;
-      margin: 15px 0;
+      margin: 20px 0;
+    }
+
+    .status {
+      text-align: center;
+      color: #8d98a5;
+      font-size: 12px;
     }
 
     .grid {
@@ -90,13 +83,39 @@
 
     .metric-title {
       color: #8d98a5;
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 10px;
     }
 
     .metric-value {
-      font-size: 21px;
+      font-size: 19px;
       font-weight: bold;
+      direction: ltr;
+    }
+
+    .usdt-card {
+      background: #0c1219;
+      border-radius: 15px;
+      padding: 18px;
+    }
+
+    .usdt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .usdt-label {
+      color: #8d98a5;
+      font-size: 13px;
+    }
+
+    .usdt-value {
+      font-size: 20px;
+      font-weight: bold;
+      direction: ltr;
     }
 
     .direction-box {
@@ -152,6 +171,14 @@
       transform: scale(.98);
     }
 
+    .error {
+      color: #ff6878;
+      text-align: center;
+      line-height: 1.8;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
     .info {
       color: #7f8b98;
       font-size: 12px;
@@ -160,89 +187,114 @@
       margin-top: 15px;
     }
 
-    .error {
-      color: #ff6878;
+    .time {
       text-align: center;
-      line-height: 1.8;
+      color: #65717d;
+      font-size: 11px;
+      margin-top: 12px;
     }
 
     @media (max-width: 500px) {
+
       .grid {
         grid-template-columns: 1fr;
       }
 
-      .price {
+      .btc-price {
         font-size: 30px;
       }
+
+      .usdt-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="header">
-      <h1>Market Direction</h1>
-      <p>BTC / USDT Trend Analyzer</p>
+  <div class="header">
+    <h1>Market Direction</h1>
+    <p>BTC / USDT Market Analyzer</p>
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- BTC -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="section-title">
+      ₿ Bitcoin (BTC)
     </div>
 
-    <div class="card">
+    <div id="btcPrice" class="btc-price">
+      --
+    </div>
 
-      <div class="coin">
-        <div class="coin-name">₿ BTC / USDT</div>
-        <div id="status" class="status">در حال دریافت داده...</div>
+    <div class="status" id="btcStatus">
+      در حال دریافت داده...
+    </div>
+
+    <br>
+
+    <div class="grid">
+
+      <div class="metric">
+        <div class="metric-title">
+          Change
+        </div>
+
+        <div id="change" class="metric-value">
+          --
+        </div>
       </div>
 
-      <div id="price" class="price">
-        --
+
+      <div class="metric">
+        <div class="metric-title">
+          Slope
+        </div>
+
+        <div id="slope" class="metric-value">
+          --
+        </div>
       </div>
 
-      <div class="grid">
 
-        <div class="metric">
-          <div class="metric-title">Change</div>
-          <div id="change" class="metric-value">--</div>
+      <div class="metric">
+        <div class="metric-title">
+          Consistency
         </div>
 
-        <div class="metric">
-          <div class="metric-title">Slope</div>
-          <div id="slope" class="metric-value">--</div>
+        <div id="consistency" class="metric-value">
+          --
         </div>
-
-        <div class="metric">
-          <div class="metric-title">Consistency</div>
-          <div id="consistency" class="metric-value">--</div>
-        </div>
-
       </div>
 
-      <div class="direction-box">
+    </div>
 
-        <div id="arrow" class="arrow neutral">
-          →
-        </div>
 
-        <div id="direction" class="direction neutral">
-          در حال تحلیل...
-        </div>
+    <!-- Trend -->
 
-        <div class="score">
-          Trend Score:
-          <strong id="score">--</strong>
-        </div>
+    <div class="direction-box">
 
+      <div id="arrow" class="arrow neutral">
+        →
       </div>
 
-      <button onclick="analyzeMarket()">
-        بروزرسانی
-      </button>
+      <div id="direction" class="direction neutral">
+        در حال تحلیل...
+      </div>
 
-      <div id="error" class="error"></div>
-
-      <div class="info">
-        این نسخه آزمایشی است و برای تحلیل آموزشی ساخته شده.
-        تصمیم معاملاتی فقط بر اساس این شاخص انجام نده.
+      <div class="score">
+        Trend Score:
+        <strong id="score">--</strong>
       </div>
 
     </div>
@@ -250,494 +302,1055 @@
   </div>
 
 
+
+  <!-- ========================= -->
+  <!-- USDT MARKET CAP -->
+  <!-- ========================= -->
+
+  <div class="card">
+
+    <div class="section-title">
+      ₮ Tether (USDT)
+    </div>
+
+    <div class="usdt-card">
+
+      <div class="usdt-row">
+
+        <div class="usdt-label">
+          Market Cap
+        </div>
+
+        <div id="usdtMarketCap" class="usdt-value">
+          --
+        </div>
+
+      </div>
+
+
+      <div class="usdt-row">
+
+        <div class="usdt-label">
+          Market Cap Change 24h
+        </div>
+
+        <div id="usdtChange" class="usdt-value">
+          --
+        </div>
+
+      </div>
+
+
+      <div class="usdt-row">
+
+        <div class="usdt-label">
+          رتبه بازار
+        </div>
+
+        <div id="usdtRank" class="usdt-value">
+          --
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button onclick="analyzeMarket()">
+    بروزرسانی اطلاعات
+  </button>
+
+
+  <div id="error" class="error"></div>
+
+  <div id="updateTime" class="time">
+    آخرین بروزرسانی: --
+  </div>
+
+
+  <div class="info">
+    این نسخه آزمایشی است و Trend Score صرفاً بر اساس
+    Change + Slope + Consistency محاسبه می‌شود.
+  </div>
+
+</div>
+
+
+
 <script>
 
-  /*
-   * ==========================================
-   * Market Direction - Version 1
-   * ==========================================
-   *
-   * Change
-   * +
-   * Slope
-   * +
-   * Consistency
-   * ↓
-   * Trend Score
-   * ↓
-   * ↑ / ↓ / →
-   *
-   */
-
-  const API_URL =
-    "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly";
+/*
+====================================================
+ MARKET DIRECTION
+ BTC + USDT MARKET CAP
+====================================================
+*/
 
 
-  // -----------------------------
-  // تنظیمات الگوریتم
-  // -----------------------------
-
-  const CHANGE_WEIGHT = 0.40;
-  const SLOPE_WEIGHT = 0.35;
-  const CONSISTENCY_WEIGHT = 0.25;
-
-  const UP_THRESHOLD = 0.15;
-  const DOWN_THRESHOLD = -0.15;
+const BTC_API =
+"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1&interval=hourly";
 
 
-  // -----------------------------
-  // دریافت داده
-  // -----------------------------
-
-  async function getMarketData() {
-
-    const response = await fetch(API_URL);
-
-    if (!response.ok) {
-      throw new Error("API Error: " + response.status);
-    }
-
-    return await response.json();
-  }
+const MARKET_API =
+"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=tether&price_change_percentage=24h";
 
 
-  // -----------------------------
-  // میانگین
-  // -----------------------------
+/*
+====================================================
+ تنظیمات Trend Score
+====================================================
+*/
 
-  function average(array) {
+const CHANGE_WEIGHT = 0.40;
 
-    if (!array.length) return 0;
+const SLOPE_WEIGHT = 0.35;
 
-    return array.reduce((a, b) => a + b, 0) / array.length;
-  }
+const CONSISTENCY_WEIGHT = 0.25;
 
+const UP_THRESHOLD = 0.15;
 
-  // -----------------------------
-  // محاسبه Change
-  // -----------------------------
-
-  function calculateChange(prices) {
-
-    if (prices.length < 2) return 0;
-
-    const first = prices[0];
-    const last = prices[prices.length - 1];
-
-    return ((last - first) / first) * 100;
-  }
+const DOWN_THRESHOLD = -0.15;
 
 
-  // -----------------------------
-  // محاسبه Slope
-  // -----------------------------
+/*
+====================================================
+ دریافت داده BTC
+====================================================
+*/
 
-  function calculateSlope(prices) {
+async function getBTCData() {
 
-    const n = prices.length;
+  const response = await fetch(BTC_API);
 
-    if (n < 2) return 0;
+  if (!response.ok) {
 
-    let sumX = 0;
-    let sumY = 0;
-    let sumXY = 0;
-    let sumXX = 0;
-
-    for (let i = 0; i < n; i++) {
-
-      const x = i;
-      const y = prices[i];
-
-      sumX += x;
-      sumY += y;
-      sumXY += x * y;
-      sumXX += x * x;
-    }
-
-    const denominator =
-      (n * sumXX) - (sumX * sumX);
-
-    if (denominator === 0) {
-      return 0;
-    }
-
-    return (
-      (n * sumXY - sumX * sumY) /
-      denominator
+    throw new Error(
+      "خطا در دریافت اطلاعات BTC: " +
+      response.status
     );
+
+  }
+
+  return await response.json();
+
+}
+
+
+/*
+====================================================
+ دریافت Market Cap تتر
+====================================================
+*/
+
+async function getUSDTData() {
+
+  const response = await fetch(MARKET_API);
+
+  if (!response.ok) {
+
+    throw new Error(
+      "خطا در دریافت اطلاعات USDT: " +
+      response.status
+    );
+
+  }
+
+  const data = await response.json();
+
+  if (!data || !data.length) {
+
+    throw new Error(
+      "اطلاعات USDT دریافت نشد."
+    );
+
+  }
+
+  return data[0];
+
+}
+
+
+/*
+====================================================
+ Average
+====================================================
+*/
+
+function average(array) {
+
+  if (!array.length) {
+
+    return 0;
+
+  }
+
+  return array.reduce(
+    (a, b) => a + b,
+    0
+  ) / array.length;
+
+}
+
+
+/*
+====================================================
+ Change
+====================================================
+*/
+
+function calculateChange(prices) {
+
+  if (prices.length < 2) {
+
+    return 0;
+
+  }
+
+  const first =
+    prices[0];
+
+  const last =
+    prices[prices.length - 1];
+
+
+  return (
+    (last - first) /
+    first
+  ) * 100;
+
+}
+
+
+/*
+====================================================
+ Slope
+====================================================
+*/
+
+function calculateSlope(prices) {
+
+  const n =
+    prices.length;
+
+  if (n < 2) {
+
+    return 0;
+
   }
 
 
-  // -----------------------------
-  // نرمال‌سازی Slope
-  // -----------------------------
+  let sumX = 0;
 
-  function normalizeSlope(slope, prices) {
+  let sumY = 0;
 
-    const avgPrice = average(prices);
+  let sumXY = 0;
 
-    if (avgPrice === 0) return 0;
-
-    /*
-     * تبدیل شیب قیمت به درصد تقریبی
-     */
-
-    return (slope / avgPrice) * 100;
-  }
+  let sumXX = 0;
 
 
-  // -----------------------------
-  // محاسبه Consistency
-  // -----------------------------
-
-  function calculateConsistency(prices) {
-
-    if (prices.length < 2) return 0;
-
-    let positive = 0;
-    let negative = 0;
-
-    for (let i = 1; i < prices.length; i++) {
-
-      if (prices[i] > prices[i - 1]) {
-        positive++;
-      }
-
-      else if (prices[i] < prices[i - 1]) {
-        negative++;
-      }
-    }
-
-    const total = positive + negative;
-
-    if (total === 0) return 0;
-
-    /*
-     * اگر بیشتر حرکات هم‌جهت باشند،
-     * Consistency بیشتر می‌شود.
-     */
-
-    const dominant =
-      Math.max(positive, negative);
-
-    return (dominant / total) * 100;
-  }
-
-
-  // -----------------------------
-  // Trend Score
-  // -----------------------------
-
-  function calculateTrendScore(
-    change,
-    slope,
-    consistency,
-    prices
+  for (
+    let i = 0;
+    i < n;
+    i++
   ) {
 
-    /*
-     * Change
-     *
-     * مقدار تغییر را محدود می‌کنیم
-     * تا یک حرکت شدید کل امتیاز را خراب نکند.
-     */
+    const x = i;
 
-    let changeScore =
-      Math.max(-1, Math.min(1, change / 2));
+    const y = prices[i];
 
 
-    /*
-     * Slope
-     */
+    sumX += x;
 
-    let slopeScore =
-      Math.max(-1, Math.min(1, slope / 0.15));
+    sumY += y;
 
+    sumXY +=
+      x * y;
 
-    /*
-     * Consistency
-     *
-     * جهت Consistency را از Change می‌گیریم.
-     */
+    sumXX +=
+      x * x;
 
-    let consistencyScore = 0;
-
-    if (change > 0) {
-      consistencyScore = consistency / 100;
-    }
-
-    else if (change < 0) {
-      consistencyScore = -(consistency / 100);
-    }
-
-
-    /*
-     * ترکیب سه فاکتور
-     */
-
-    const score =
-      (changeScore * CHANGE_WEIGHT) +
-      (slopeScore * SLOPE_WEIGHT) +
-      (consistencyScore * CONSISTENCY_WEIGHT);
-
-    return score;
   }
 
 
-  // -----------------------------
-  // تعیین جهت
-  // -----------------------------
+  const denominator =
+    (n * sumXX) -
+    (sumX * sumX);
 
-  function getDirection(score) {
 
-    if (score >= UP_THRESHOLD) {
+  if (
+    denominator === 0
+  ) {
 
-      return {
-        symbol: "↑",
-        text: "روند صعودی",
-        className: "up"
-      };
+    return 0;
+
+  }
+
+
+  return (
+    (
+      n * sumXY -
+      sumX * sumY
+    ) /
+    denominator
+  );
+
+}
+
+
+/*
+====================================================
+ Normalize Slope
+====================================================
+*/
+
+function normalizeSlope(
+  slope,
+  prices
+) {
+
+  const avgPrice =
+    average(prices);
+
+
+  if (
+    avgPrice === 0
+  ) {
+
+    return 0;
+
+  }
+
+
+  return (
+    slope /
+    avgPrice
+  ) * 100;
+
+}
+
+
+/*
+====================================================
+ Consistency
+====================================================
+*/
+
+function calculateConsistency(
+  prices
+) {
+
+  if (
+    prices.length < 2
+  ) {
+
+    return 0;
+
+  }
+
+
+  let positive = 0;
+
+  let negative = 0;
+
+
+  for (
+    let i = 1;
+    i < prices.length;
+    i++
+  ) {
+
+    if (
+      prices[i] >
+      prices[i - 1]
+    ) {
+
+      positive++;
 
     }
 
-    if (score <= DOWN_THRESHOLD) {
+    else if (
+      prices[i] <
+      prices[i - 1]
+    ) {
 
-      return {
-        symbol: "↓",
-        text: "روند نزولی",
-        className: "down"
-      };
+      negative++;
 
     }
+
+  }
+
+
+  const total =
+    positive +
+    negative;
+
+
+  if (
+    total === 0
+  ) {
+
+    return 0;
+
+  }
+
+
+  const dominant =
+    Math.max(
+      positive,
+      negative
+    );
+
+
+  return (
+    dominant /
+    total
+  ) * 100;
+
+}
+
+
+/*
+====================================================
+ Trend Score
+====================================================
+*/
+
+function calculateTrendScore(
+  change,
+  slope,
+  consistency
+) {
+
+  /*
+   * Change Score
+   */
+
+  const changeScore =
+    Math.max(
+      -1,
+      Math.min(
+        1,
+        change / 2
+      )
+    );
+
+
+  /*
+   * Slope Score
+   */
+
+  const slopeScore =
+    Math.max(
+      -1,
+      Math.min(
+        1,
+        slope / 0.15
+      )
+    );
+
+
+  /*
+   * Consistency Score
+   */
+
+  let consistencyScore = 0;
+
+
+  if (
+    change > 0
+  ) {
+
+    consistencyScore =
+      consistency / 100;
+
+  }
+
+  else if (
+    change < 0
+  ) {
+
+    consistencyScore =
+      -(consistency / 100);
+
+  }
+
+
+  /*
+   * ترکیب
+   */
+
+  return (
+
+    changeScore *
+    CHANGE_WEIGHT
+
+  ) + (
+
+    slopeScore *
+    SLOPE_WEIGHT
+
+  ) + (
+
+    consistencyScore *
+    CONSISTENCY_WEIGHT
+
+  );
+
+}
+
+
+/*
+====================================================
+ Direction
+====================================================
+*/
+
+function getDirection(score) {
+
+  if (
+    score >= UP_THRESHOLD
+  ) {
 
     return {
-      symbol: "→",
-      text: "خنثی / نامشخص",
-      className: "neutral"
+
+      symbol: "↑",
+
+      text: "روند صعودی",
+
+      className: "up"
+
     };
+
   }
 
 
-  // -----------------------------
-  // نمایش عدد
-  // -----------------------------
+  if (
+    score <= DOWN_THRESHOLD
+  ) {
 
-  function formatNumber(value, digits = 2) {
+    return {
 
-    if (!Number.isFinite(value)) {
-      return "--";
+      symbol: "↓",
+
+      text: "روند نزولی",
+
+      className: "down"
+
+    };
+
+  }
+
+
+  return {
+
+    symbol: "→",
+
+    text: "خنثی / نامشخص",
+
+    className: "neutral"
+
+  };
+
+}
+
+
+/*
+====================================================
+ Format Number
+====================================================
+*/
+
+function formatNumber(
+  value,
+  digits = 2
+) {
+
+  if (
+    !Number.isFinite(value)
+  ) {
+
+    return "--";
+
+  }
+
+
+  return value.toFixed(digits);
+
+}
+
+
+/*
+====================================================
+ Format Money
+====================================================
+*/
+
+function formatMoney(
+  value
+) {
+
+  if (
+    !Number.isFinite(value)
+  ) {
+
+    return "--";
+
+  }
+
+
+  return "$" +
+    value.toLocaleString(
+      "en-US",
+      {
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+/*
+====================================================
+ تحلیل اصلی
+====================================================
+*/
+
+async function analyzeMarket() {
+
+  const error =
+    document.getElementById(
+      "error"
+    );
+
+
+  const btcStatus =
+    document.getElementById(
+      "btcStatus"
+    );
+
+
+  error.textContent = "";
+
+  btcStatus.textContent =
+    "در حال دریافت داده BTC و USDT...";
+
+
+  try {
+
+    /*
+    ================================================
+    دریافت همزمان
+    ================================================
+    */
+
+    const [
+      btcData,
+      usdtData
+    ] = await Promise.all([
+
+      getBTCData(),
+
+      getUSDTData()
+
+    ]);
+
+
+    /*
+    ================================================
+    BTC Prices
+    ================================================
+    */
+
+    const prices =
+      btcData.prices.map(
+        item => item[1]
+      );
+
+
+    if (
+      prices.length < 2
+    ) {
+
+      throw new Error(
+        "داده کافی برای BTC وجود ندارد."
+      );
+
     }
 
-    return value.toFixed(digits);
-  }
+
+    /*
+    ================================================
+    Current BTC Price
+    ================================================
+    */
+
+    const currentPrice =
+      prices[
+        prices.length - 1
+      ];
 
 
-  // -----------------------------
-  // تحلیل اصلی
-  // -----------------------------
+    /*
+    ================================================
+    Change
+    ================================================
+    */
 
-  async function analyzeMarket() {
-
-    const status =
-      document.getElementById("status");
-
-    const error =
-      document.getElementById("error");
-
-    status.textContent =
-      "در حال دریافت داده...";
-
-    error.textContent = "";
-
-    try {
-
-      const data =
-        await getMarketData();
+    const change =
+      calculateChange(
+        prices
+      );
 
 
-      if (!data.prices || data.prices.length < 2) {
-        throw new Error("داده کافی دریافت نشد.");
-      }
+    /*
+    ================================================
+    Slope
+    ================================================
+    */
+
+    const rawSlope =
+      calculateSlope(
+        prices
+      );
 
 
-      /*
-       * استخراج قیمت‌ها
-       */
-
-      const prices =
-        data.prices.map(item => item[1]);
-
-
-      /*
-       * آخرین قیمت
-       */
-
-      const currentPrice =
-        prices[prices.length - 1];
+    const slope =
+      normalizeSlope(
+        rawSlope,
+        prices
+      );
 
 
-      /*
-       * Change
-       */
+    /*
+    ================================================
+    Consistency
+    ================================================
+    */
 
-      const change =
-        calculateChange(prices);
-
-
-      /*
-       * Slope
-       */
-
-      const rawSlope =
-        calculateSlope(prices);
+    const consistency =
+      calculateConsistency(
+        prices
+      );
 
 
-      const slope =
-        normalizeSlope(
-          rawSlope,
-          prices
-        );
+    /*
+    ================================================
+    Trend Score
+    ================================================
+    */
+
+    const trendScore =
+      calculateTrendScore(
+        change,
+        slope,
+        consistency
+      );
 
 
-      /*
-       * Consistency
-       */
+    /*
+    ================================================
+    Direction
+    ================================================
+    */
 
-      const consistency =
-        calculateConsistency(prices);
-
-
-      /*
-       * Trend Score
-       */
-
-      const trendScore =
-        calculateTrendScore(
-          change,
-          slope,
-          consistency,
-          prices
-        );
+    const direction =
+      getDirection(
+        trendScore
+      );
 
 
-      /*
-       * Direction
-       */
+    /*
+    ================================================
+    نمایش BTC
+    ================================================
+    */
 
-      const direction =
-        getDirection(trendScore);
-
-
-      // -----------------------------
-      // نمایش
-      // -----------------------------
-
-      document.getElementById("price")
-        .textContent =
-        "$" +
-        currentPrice.toLocaleString(
-          "en-US",
-          {
-            maximumFractionDigits: 2
-          }
-        );
+    document.getElementById(
+      "btcPrice"
+    ).textContent =
+      formatMoney(
+        currentPrice
+      );
 
 
-      const changeElement =
-        document.getElementById("change");
+    /*
+    Change
+    */
 
-      changeElement.textContent =
-        (change >= 0 ? "+" : "") +
-        formatNumber(change) +
-        "%";
+    const changeElement =
+      document.getElementById(
+        "change"
+      );
 
-      changeElement.className =
-        "metric-value " +
-        (change > 0
+
+    changeElement.textContent =
+      (
+        change >= 0
+          ? "+"
+          : ""
+      ) +
+      formatNumber(
+        change
+      ) +
+      "%";
+
+
+    changeElement.className =
+      "metric-value " +
+      (
+        change > 0
           ? "up"
           : change < 0
             ? "down"
-            : "neutral");
+            : "neutral"
+      );
 
 
-      const slopeElement =
-        document.getElementById("slope");
+    /*
+    Slope
+    */
 
-      slopeElement.textContent =
-        (slope >= 0 ? "+" : "") +
-        formatNumber(slope, 4) +
-        "%";
+    const slopeElement =
+      document.getElementById(
+        "slope"
+      );
 
-      slopeElement.className =
-        "metric-value " +
-        (slope > 0
+
+    slopeElement.textContent =
+      (
+        slope >= 0
+          ? "+"
+          : ""
+      ) +
+      formatNumber(
+        slope,
+        4
+      ) +
+      "%";
+
+
+    slopeElement.className =
+      "metric-value " +
+      (
+        slope > 0
           ? "up"
           : slope < 0
             ? "down"
-            : "neutral");
+            : "neutral"
+      );
 
 
-      document.getElementById("consistency")
-        .textContent =
-        formatNumber(consistency) +
-        "%";
+    /*
+    Consistency
+    */
+
+    document.getElementById(
+      "consistency"
+    ).textContent =
+      formatNumber(
+        consistency
+      ) +
+      "%";
 
 
-      document.getElementById("score")
-        .textContent =
-        (trendScore >= 0 ? "+" : "") +
-        formatNumber(trendScore, 3);
+    /*
+    Score
+    */
+
+    document.getElementById(
+      "score"
+    ).textContent =
+      (
+        trendScore >= 0
+          ? "+"
+          : ""
+      ) +
+      formatNumber(
+        trendScore,
+        3
+      );
 
 
-      const arrow =
-        document.getElementById("arrow");
+    /*
+    Arrow
+    */
 
-      const directionText =
-        document.getElementById("direction");
-
-
-      arrow.textContent =
-        direction.symbol;
-
-      arrow.className =
-        "arrow " +
-        direction.className;
+    const arrow =
+      document.getElementById(
+        "arrow"
+      );
 
 
-      directionText.textContent =
-        direction.text;
-
-      directionText.className =
-        "direction " +
-        direction.className;
+    arrow.textContent =
+      direction.symbol;
 
 
-      status.textContent =
-        "داده دریافت شد ✓";
+    arrow.className =
+      "arrow " +
+      direction.className;
 
-    }
 
-    catch (err) {
+    /*
+    Direction Text
+    */
 
-      console.error(err);
+    const directionElement =
+      document.getElementById(
+        "direction"
+      );
 
-      status.textContent =
-        "خطا در دریافت داده";
 
-      error.textContent =
-        "دریافت داده انجام نشد. اتصال اینترنت و دسترسی API را بررسی کن.";
+    directionElement.textContent =
+      direction.text;
 
-    }
+
+    directionElement.className =
+      "direction " +
+      direction.className;
+
+
+    /*
+    ================================================
+    USDT Market Cap
+    ================================================
+    */
+
+    const marketCap =
+      usdtData.market_cap;
+
+
+    document.getElementById(
+      "usdtMarketCap"
+    ).textContent =
+      formatMoney(
+        marketCap
+      );
+
+
+    /*
+    ================================================
+    USDT 24h Change
+    ================================================
+    */
+
+    const usdtChange =
+      usdtData.market_cap_change_percentage_24h;
+
+
+    const usdtChangeElement =
+      document.getElementById(
+        "usdtChange"
+      );
+
+
+    usdtChangeElement.textContent =
+      (
+        usdtChange >= 0
+          ? "+"
+          : ""
+      ) +
+      formatNumber(
+        usdtChange
+      ) +
+      "%";
+
+
+    usdtChangeElement.className =
+      "usdt-value " +
+      (
+        usdtChange > 0
+          ? "up"
+          : usdtChange < 0
+            ? "down"
+            : "neutral"
+      );
+
+
+    /*
+    ================================================
+    USDT Rank
+    ================================================
+    */
+
+    document.getElementById(
+      "usdtRank"
+    ).textContent =
+      "#" +
+      usdtData.market_cap_rank;
+
+
+    /*
+    ================================================
+    وضعیت
+    ================================================
+    */
+
+    btcStatus.textContent =
+      "داده‌ها با موفقیت دریافت شدند ✓";
+
+
+    /*
+    ================================================
+    زمان بروزرسانی
+    ================================================
+    */
+
+    const now =
+      new Date();
+
+
+    document.getElementById(
+      "updateTime"
+    ).textContent =
+      "آخرین بروزرسانی: " +
+      now.toLocaleTimeString(
+        "fa-IR"
+      );
+
 
   }
 
+  catch (err) {
 
-  // -----------------------------
-  // اجرای اولیه
-  // -----------------------------
+    console.error(err);
 
-  analyzeMarket();
 
+    btcStatus.textContent =
+      "خطا در دریافت داده";
+
+
+    error.textContent =
+      "خطا: " +
+      err.message +
+      " — اتصال اینترنت یا دسترسی API را بررسی کن.";
+
+  }
+
+}
+
+
+/*
+====================================================
+ اجرای اولیه
+====================================================
+*/
+
+analyzeMarket();
+
+
+/*
+====================================================
+ بروزرسانی خودکار
+ هر 60 ثانیه
+====================================================
+*/
+
+setInterval(
+  analyzeMarket,
+  60000
+);
 
 </script>
 
