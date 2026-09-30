@@ -1,866 +1,471 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
-
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>Market Direction V2</title>
-
+  <title>Market Direction</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
-
-      min-height: 100vh;
-
-      background: #080c11;
-
-      color: #ffffff;
-
-      font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
-
-      padding: 15px;
-
+      font-family: Tahoma, Arial, sans-serif;
+      background: #0b0d12;
+      color: #f5f5f5;
     }
-
 
     .container {
-
       width: 100%;
-
-      max-width: 900px;
-
+      max-width: 1100px;
       margin: auto;
-
+      padding: 15px;
     }
-
-
-    /* HEADER */
 
     header {
-
       text-align: center;
-
-      margin-bottom: 20px;
-
+      padding: 20px 10px;
+      border-bottom: 1px solid #252936;
+      margin-bottom: 15px;
     }
-
 
     header h1 {
-
-      margin: 0 0 7px;
-
-      font-size: 28px;
-
+      margin: 0;
+      color: #f4c542;
+      font-size: 26px;
     }
-
 
     header p {
-
-      margin: 0;
-
-      color: #7f8a96;
-
+      margin: 8px 0 0;
+      color: #999;
       font-size: 13px;
-
     }
 
-
-    /* CARD */
-
-    .card {
-
-      background: #10161e;
-
-      border: 1px solid #202a34;
-
-      border-radius: 18px;
-
-      padding: 18px;
-
-      margin-bottom: 15px;
-
-    }
-
-
-    /* MARKET OVERVIEW */
-
-    .overview {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(2, 1fr);
-
-      gap: 10px;
-
-    }
-
-
-    .market-box {
-
-      background: #0b1118;
-
+    .section {
+      background: #11141b;
+      border: 1px solid #252936;
       border-radius: 14px;
-
       padding: 15px;
-
+      margin-bottom: 15px;
     }
-
-
-    .market-title {
-
-      color: #7f8a96;
-
-      font-size: 12px;
-
-      margin-bottom: 8px;
-
-    }
-
-
-    .market-value {
-
-      font-size: 20px;
-
-      font-weight: bold;
-
-      direction: ltr;
-
-      text-align: right;
-
-    }
-
-
-    .market-change {
-
-      margin-top: 6px;
-
-      font-size: 12px;
-
-      direction: ltr;
-
-      text-align: right;
-
-    }
-
-
-    /* TIMEFRAMES */
 
     .section-title {
-
+      color: #f4c542;
       font-size: 17px;
-
+      margin-bottom: 14px;
       font-weight: bold;
-
-      margin-bottom: 13px;
-
     }
 
-
-    .timeframes {
-
+    .cards {
       display: grid;
-
-      grid-template-columns:
-        repeat(5, 1fr);
-
-      gap: 7px;
-
-    }
-
-
-    .timeframe {
-
-      border: 1px solid #293541;
-
-      background: #0b1118;
-
-      color: #9aa5b0;
-
-      padding: 12px 5px;
-
-      border-radius: 10px;
-
-      cursor: pointer;
-
-      text-align: center;
-
-      font-size: 13px;
-
-    }
-
-
-    .timeframe.active {
-
-      background: #dcae3d;
-
-      color: #111;
-
-      border-color: #dcae3d;
-
-      font-weight: bold;
-
-    }
-
-
-    /* PRICE */
-
-    .price {
-
-      text-align: center;
-
-      font-size: 35px;
-
-      font-weight: bold;
-
-      margin: 15px 0 5px;
-
-      direction: ltr;
-
-    }
-
-
-    .price-change {
-
-      text-align: center;
-
-      direction: ltr;
-
-      font-size: 13px;
-
-    }
-
-
-    /* CHART */
-
-    .chart-wrapper {
-
-      position: relative;
-
-      width: 100%;
-
-      height: 350px;
-
-      background: #080d13;
-
-      border-radius: 15px;
-
-      overflow: hidden;
-
-      border: 1px solid #1d2730;
-
-    }
-
-
-    canvas {
-
-      width: 100%;
-
-      height: 100%;
-
-      display: block;
-
-    }
-
-
-    /* CHART LABELS */
-
-    .chart-info {
-
-      display: flex;
-
-      justify-content: space-between;
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-
-      margin-top: 10px;
-
-      font-size: 12px;
-
-      color: #7f8a96;
-
     }
 
-
-    /* TREND */
-
-    .trend-box {
-
-      background: #0b1118;
-
-      border-radius: 15px;
-
-      padding: 20px;
-
+    .card {
+      background: #181c25;
+      border: 1px solid #292e3a;
+      border-radius: 12px;
+      padding: 14px;
       text-align: center;
-
-      margin-top: 15px;
-
     }
 
-
-    .arrow {
-
-      font-size: 65px;
-
-      line-height: 1;
-
-    }
-
-
-    .trend-text {
-
-      font-size: 23px;
-
-      font-weight: bold;
-
-      margin-top: 7px;
-
-    }
-
-
-    .score {
-
-      margin-top: 8px;
-
-      color: #8b96a1;
-
-      direction: ltr;
-
-    }
-
-
-    /* SUPPORT RESISTANCE */
-
-    .sr-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 10px;
-
-    }
-
-
-    .sr-box {
-
-      background: #0b1118;
-
-      border-radius: 14px;
-
-      padding: 16px;
-
-    }
-
-
-    .sr-title {
-
-      color: #8b96a1;
-
+    .card-title {
+      color: #999;
       font-size: 12px;
-
       margin-bottom: 8px;
-
     }
 
-
-    .sr-value {
-
-      font-size: 20px;
-
+    .card-value {
+      font-size: 18px;
       font-weight: bold;
-
       direction: ltr;
-
     }
 
-
-    .levels {
-
-      margin-top: 10px;
-
-      font-size: 12px;
-
-      color: #7f8a96;
-
-      line-height: 2;
-
-      direction: ltr;
-
+    .positive {
+      color: #31d17c;
     }
 
-
-    /* COLORS */
-
-    .up {
-
-      color: #27d17f;
-
+    .negative {
+      color: #ff5d6c;
     }
-
-
-    .down {
-
-      color: #ff5364;
-
-    }
-
 
     .neutral {
-
-      color: #e5bd55;
-
+      color: #f4c542;
     }
 
-
-    .support {
-
-      color: #43c99b;
-
+    .timeframes {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 15px;
     }
 
-
-    .resistance {
-
-      color: #ff6878;
-
-    }
-
-
-    /* BUTTON */
-
-    button.refresh {
-
-      width: 100%;
-
-      border: 0;
-
-      border-radius: 12px;
-
-      padding: 14px;
-
-      background: #dcae3d;
-
-      color: #111;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
+    .tf-btn {
+      border: 1px solid #343a48;
+      background: #181c25;
+      color: #ccc;
+      padding: 11px 5px;
+      border-radius: 10px;
       cursor: pointer;
-
+      font-size: 13px;
     }
 
-
-    button.refresh:active {
-
-      transform: scale(.98);
-
+    .tf-btn.active {
+      background: #f4c542;
+      color: #111;
+      border-color: #f4c542;
+      font-weight: bold;
     }
 
+    .chart-wrap {
+      width: 100%;
+      height: 330px;
+      position: relative;
+      background: #0c0f15;
+      border: 1px solid #292e3a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
 
-    /* STATUS */
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .chart-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    .trend-box {
+      text-align: center;
+      padding: 20px;
+      background: #181c25;
+      border-radius: 12px;
+      border: 1px solid #292e3a;
+    }
+
+    .direction {
+      font-size: 45px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .direction-text {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .score {
+      font-size: 28px;
+      direction: ltr;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .metric {
+      background: #11141b;
+      border: 1px solid #292e3a;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .metric-title {
+      color: #888;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      direction: ltr;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .sr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .sr-box {
+      background: #181c25;
+      border: 1px solid #292e3a;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .sr-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .support-title {
+      color: #31d17c;
+    }
+
+    .resistance-title {
+      color: #ff5d6c;
+    }
+
+    .level {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #252936;
+      font-size: 13px;
+    }
+
+    .level:last-child {
+      border-bottom: none;
+    }
+
+    .level-price {
+      direction: ltr;
+      font-weight: bold;
+    }
 
     .status {
-
       text-align: center;
-
-      color: #707b86;
-
-      font-size: 11px;
-
-      margin-top: 10px;
-
-      line-height: 1.8;
-
+      color: #888;
+      font-size: 12px;
+      padding: 8px;
     }
 
+    .loading {
+      color: #f4c542;
+    }
 
     .error {
-
-      color: #ff6878;
-
-      text-align: center;
-
-      font-size: 12px;
-
-      line-height: 1.8;
-
-      margin-top: 10px;
-
+      color: #ff5d6c;
     }
 
+    footer {
+      text-align: center;
+      color: #666;
+      font-size: 11px;
+      padding: 10px;
+    }
 
-    @media(max-width:600px) {
-
-      .overview {
-
-        grid-template-columns: 1fr;
-
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-
-      .timeframes {
-
-        grid-template-columns:
-          repeat(3, 1fr);
-
+      .metrics {
+        grid-template-columns: repeat(2, 1fr);
       }
-
-
-      .chart-wrapper {
-
-        height: 280px;
-
-      }
-
 
       .sr-grid {
-
         grid-template-columns: 1fr;
-
       }
 
-
-      .price {
-
-        font-size: 29px;
-
+      .chart-wrap {
+        height: 280px;
       }
-
     }
 
+    @media (max-width: 450px) {
+      .container {
+        padding: 10px;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      .timeframes {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .tf-btn {
+        font-size: 11px;
+        padding: 10px 3px;
+      }
+
+      .card-value {
+        font-size: 15px;
+      }
+    }
   </style>
-
 </head>
-
-
 
 <body>
 
-
 <div class="container">
 
-
-  <!-- HEADER -->
-
   <header>
-
-    <h1>
-      Market Direction
-    </h1>
-
-    <p>
-      BTC / USDT Market Analyzer — V2
-    </p>
-
+    <h1>Market Direction</h1>
+    <p>BTC + USDT Market Analysis</p>
   </header>
 
-
-
   <!-- MARKET OVERVIEW -->
-
-  <div class="card">
+  <div class="section">
 
     <div class="section-title">
-      وضعیت کلی بازار
+      وضعیت بازار
     </div>
 
+    <div class="cards">
 
-    <div class="overview">
-
-
-      <div class="market-box">
-
-        <div class="market-title">
-          BTC Price
-        </div>
-
-        <div
-          id="btcPrice"
-          class="market-value"
-        >
-          --
-        </div>
-
-        <div
-          id="btc24h"
-          class="market-change"
-        >
-          --
-        </div>
-
+      <div class="card">
+        <div class="card-title">BTC Price</div>
+        <div class="card-value" id="btcPrice">--</div>
       </div>
 
-
-
-      <div class="market-box">
-
-        <div class="market-title">
-          BTC Market Cap
-        </div>
-
-        <div
-          id="btcMarketCap"
-          class="market-value"
-        >
-          --
-        </div>
-
+      <div class="card">
+        <div class="card-title">BTC Market Cap</div>
+        <div class="card-value" id="btcMarketCap">--</div>
       </div>
 
-
-
-      <div class="market-box">
-
-        <div class="market-title">
-          USDT Market Cap
-        </div>
-
-        <div
-          id="usdtMarketCap"
-          class="market-value"
-        >
-          --
-        </div>
-
-        <div
-          id="usdt24h"
-          class="market-change"
-        >
-          --
-        </div>
-
+      <div class="card">
+        <div class="card-title">USDT Market Cap</div>
+        <div class="card-value" id="usdtMarketCap">--</div>
       </div>
 
-
-
-      <div class="market-box">
-
-        <div class="market-title">
-          USDT Market Rank
-        </div>
-
-        <div
-          id="usdtRank"
-          class="market-value"
-        >
-          --
-        </div>
-
+      <div class="card">
+        <div class="card-title">USDT Rank</div>
+        <div class="card-value" id="usdtRank">--</div>
       </div>
 
+      <div class="card">
+        <div class="card-title">BTC 24H</div>
+        <div class="card-value" id="btcChange">--</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">USDT 24H</div>
+        <div class="card-value" id="usdtChange">--</div>
+      </div>
 
     </div>
-
   </div>
 
-
-
   <!-- TIMEFRAME -->
-
-  <div class="card">
+  <div class="section">
 
     <div class="section-title">
       تایم‌فریم
     </div>
 
-
     <div class="timeframes">
 
-      <div
-        class="timeframe"
-        data-tf="1M"
-        onclick="changeTimeframe('1M')"
-      >
-        1M
-      </div>
-
-
-      <div
-        class="timeframe"
-        data-tf="1W"
-        onclick="changeTimeframe('1W')"
-      >
-        1W
-      </div>
-
-
-      <div
-        class="timeframe active"
-        data-tf="1D"
-        onclick="changeTimeframe('1D')"
-      >
-        1D
-      </div>
-
-
-      <div
-        class="timeframe"
-        data-tf="4H"
-        onclick="changeTimeframe('4H')"
-      >
-        4H
-      </div>
-
-
-      <div
-        class="timeframe"
-        data-tf="1H"
-        onclick="changeTimeframe('1H')"
-      >
+      <button class="tf-btn" data-days="1" data-name="1H">
         1H
-      </div>
+      </button>
 
-    </div>
+      <button class="tf-btn active" data-days="7" data-name="4H">
+        4H
+      </button>
 
-  </div>
-
-
-
-  <!-- PRICE -->
-
-  <div class="card">
-
-    <div class="section-title">
-
-      BTC /
-      <span id="currentTF">
+      <button class="tf-btn" data-days="30" data-name="1D">
         1D
-      </span>
+      </button>
+
+      <button class="tf-btn" data-days="180" data-name="1W">
+        1W
+      </button>
+
+      <button class="tf-btn" data-days="365" data-name="1M">
+        1M
+      </button>
 
     </div>
 
-
-    <div
-      id="price"
-      class="price"
-    >
-      --
+    <div class="status" id="chartStatus">
+      در حال دریافت اطلاعات...
     </div>
 
-
-    <div
-      id="priceChange"
-      class="price-change"
-    >
-      --
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
     </div>
-
-
-    <div
-      id="chartWrapper"
-      class="chart-wrapper"
-    >
-
-      <canvas
-        id="chart"
-      ></canvas>
-
-    </div>
-
 
     <div class="chart-info">
-
-      <span id="chartStart">
-        --
-      </span>
-
-      <span>
-        حداکثر ۴۰۰ داده
-      </span>
-
-      <span id="chartEnd">
-        --
-      </span>
-
+      <span id="candleCount">21 کندل</span>
+      <span id="timeframeLabel">4H</span>
     </div>
 
   </div>
 
-
-
   <!-- TREND -->
-
-  <div class="card">
+  <div class="section">
 
     <div class="section-title">
-      تحلیل روند
+      Market Direction
     </div>
-
 
     <div class="trend-box">
 
-      <div
-        id="trendArrow"
-        class="arrow neutral"
-      >
+      <div class="direction" id="direction">
         →
       </div>
 
-
-      <div
-        id="trendText"
-        class="trend-text neutral"
-      >
-        در حال تحلیل
+      <div class="direction-text neutral" id="directionText">
+        در حال بررسی
       </div>
 
-
-      <div class="score">
-
-        Trend Score:
-
-        <strong id="trendScore">
-          --
-        </strong>
-
+      <div class="score" id="trendScore">
+        0.00
       </div>
 
+      <div class="metrics">
 
-      <div class="chart-info">
+        <div class="metric">
+          <div class="metric-title">
+            Change
+          </div>
 
-        <span>
-          Change:
-          <strong id="change">
-            --
-          </strong>
-        </span>
+          <div class="metric-value" id="changeMetric">
+            0.00%
+          </div>
+        </div>
 
+        <div class="metric">
+          <div class="metric-title">
+            Slope
+          </div>
 
-        <span>
-          Slope:
-          <strong id="slope">
-            --
-          </strong>
-        </span>
+          <div class="metric-value" id="slopeMetric">
+            0.00%
+          </div>
+        </div>
 
+        <div class="metric">
+          <div class="metric-title">
+            Consistency
+          </div>
 
-        <span>
-          Consistency:
-          <strong id="consistency">
-            --
-          </strong>
-        </span>
+          <div class="metric-value" id="consistencyMetric">
+            0.00%
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="metric-title">
+            Candles
+          </div>
+
+          <div class="metric-value">
+            21
+          </div>
+        </div>
 
       </div>
 
@@ -868,1934 +473,1335 @@
 
   </div>
 
-
-
   <!-- SUPPORT / RESISTANCE -->
-
-  <div class="card">
+  <div class="section">
 
     <div class="section-title">
-      حمایت و مقاومت
+      حمایت و مقاومت — ۲۱ کندل
     </div>
-
 
     <div class="sr-grid">
 
-
       <div class="sr-box">
 
-        <div class="sr-title">
-          مقاومت اصلی
+        <div class="sr-title support-title">
+          حمایت‌ها
         </div>
 
-        <div
-          id="resistance"
-          class="sr-value resistance"
-        >
-          --
-        </div>
-
-        <div
-          id="resistanceLevels"
-          class="levels"
-        >
-          --
+        <div id="supportLevels">
+          در حال محاسبه...
         </div>
 
       </div>
 
-
-
       <div class="sr-box">
 
-        <div class="sr-title">
-          حمایت اصلی
+        <div class="sr-title resistance-title">
+          مقاومت‌ها
         </div>
 
-        <div
-          id="support"
-          class="sr-value support"
-        >
-          --
-        </div>
-
-        <div
-          id="supportLevels"
-          class="levels"
-        >
-          --
+        <div id="resistanceLevels">
+          در حال محاسبه...
         </div>
 
       </div>
-
 
     </div>
 
   </div>
 
-
-
-  <!-- BUTTON -->
-
-  <button
-    class="refresh"
-    onclick="loadAll()"
-  >
-    بروزرسانی اطلاعات
-  </button>
-
-
-  <div
-    id="status"
-    class="status"
-  >
-    در حال اتصال به داده‌های بازار...
-  </div>
-
-
-  <div
-    id="error"
-    class="error"
-  ></div>
-
+  <footer>
+    Market Direction Engine — 21 Candle Analysis
+  </footer>
 
 </div>
 
 
-
 <script>
 
+  /*
+   * ============================================================
+   * MARKET DIRECTION
+   * ============================================================
+   *
+   * تمام تحلیل‌ها فقط روی 21 کندل آخر انجام می‌شوند.
+   */
 
-/*
-====================================================
- CONFIG
-====================================================
-*/
+  const MAX_CANDLES = 21;
 
-
-const MARKET_API =
-"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,tether&price_change_percentage=24h";
-
-
-const CHART_API =
-"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart";
-
-
-let currentTimeframe = "1D";
-
-let currentPrices = [];
-
-let currentTimes = [];
-
-
-
-/*
-====================================================
- TIMEFRAME SETTINGS
-====================================================
-*/
-
-
-const TIMEFRAMES = {
-
-  "1H": {
-
-    days: 1,
-
-    label: "1H"
-
-  },
-
-
-  "4H": {
-
-    days: 7,
-
-    label: "4H"
-
-  },
-
-
-  "1D": {
-
-    days: 30,
-
-    label: "1D"
-
-  },
-
-
-  "1W": {
-
-    days: 180,
-
-    label: "1W"
-
-  },
-
-
-  "1M": {
-
-    days: 365,
-
-    label: "1M"
-
-  }
-
-};
-
-
-
-/*
-====================================================
- FETCH MARKET
-====================================================
-*/
-
-
-async function getMarketData() {
-
-
-  const response =
-    await fetch(
-      MARKET_API
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      "Market API: " +
-      response.status
-    );
-
-  }
-
-
-  return await response.json();
-
-}
-
-
-
-/*
-====================================================
- FETCH CHART
-====================================================
-*/
-
-
-async function getChartData(
-  timeframe
-) {
-
-
-  const config =
-    TIMEFRAMES[
-      timeframe
-    ];
-
-
-  const url =
-    CHART_API +
+  const API_MARKETS =
+    "https://api.coingecko.com/api/v3/coins/markets" +
     "?vs_currency=usd" +
-    "&days=" +
-    config.days;
+    "&ids=bitcoin,tether" +
+    "&price_change_percentage=24h";
+
+  const API_CHART =
+    "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart";
+
+  let currentDays = 7;
+  let currentTimeframe = "4H";
+
+  let prices = [];
+
+  let supports = [];
+  let resistances = [];
 
 
-  const response =
-    await fetch(url);
+  /*
+   * ============================================================
+   * DOM
+   * ============================================================
+   */
+
+  const btcPriceEl =
+    document.getElementById("btcPrice");
+
+  const btcMarketCapEl =
+    document.getElementById("btcMarketCap");
+
+  const usdtMarketCapEl =
+    document.getElementById("usdtMarketCap");
+
+  const usdtRankEl =
+    document.getElementById("usdtRank");
+
+  const btcChangeEl =
+    document.getElementById("btcChange");
+
+  const usdtChangeEl =
+    document.getElementById("usdtChange");
+
+  const chartStatusEl =
+    document.getElementById("chartStatus");
+
+  const candleCountEl =
+    document.getElementById("candleCount");
+
+  const timeframeLabelEl =
+    document.getElementById("timeframeLabel");
+
+  const directionEl =
+    document.getElementById("direction");
+
+  const directionTextEl =
+    document.getElementById("directionText");
+
+  const trendScoreEl =
+    document.getElementById("trendScore");
+
+  const changeMetricEl =
+    document.getElementById("changeMetric");
+
+  const slopeMetricEl =
+    document.getElementById("slopeMetric");
+
+  const consistencyMetricEl =
+    document.getElementById("consistencyMetric");
+
+  const supportLevelsEl =
+    document.getElementById("supportLevels");
+
+  const resistanceLevelsEl =
+    document.getElementById("resistanceLevels");
+
+  const canvas =
+    document.getElementById("chart");
+
+  const ctx =
+    canvas.getContext("2d");
 
 
-  if (!response.ok) {
+  /*
+   * ============================================================
+   * FORMAT
+   * ============================================================
+   */
 
-    throw new Error(
-      "Chart API: " +
-      response.status
-    );
+  function formatPrice(value) {
 
-  }
+    if (!Number.isFinite(value)) {
+      return "--";
+    }
 
+    if (value >= 1000) {
+      return "$" + value.toLocaleString(
+        "en-US",
+        {
+          maximumFractionDigits: 0
+        }
+      );
+    }
 
-  return await response.json();
-
-}
-
-
-
-/*
-====================================================
- FORMAT MONEY
-====================================================
-*/
-
-
-function money(value) {
-
-
-  if (
-    !Number.isFinite(value)
-  ) {
-
-    return "--";
-
-  }
-
-
-  return "$" +
-    value.toLocaleString(
+    return "$" + value.toLocaleString(
       "en-US",
       {
-        maximumFractionDigits: 2
+        maximumFractionDigits: 4
+      }
+    );
+  }
+
+
+  function formatMoney(value) {
+
+    if (!Number.isFinite(value)) {
+      return "--";
+    }
+
+    if (value >= 1e12) {
+      return "$" +
+        (value / 1e12).toFixed(2) +
+        "T";
+    }
+
+    if (value >= 1e9) {
+      return "$" +
+        (value / 1e9).toFixed(2) +
+        "B";
+    }
+
+    if (value >= 1e6) {
+      return "$" +
+        (value / 1e6).toFixed(2) +
+        "M";
+    }
+
+    return "$" +
+      value.toLocaleString();
+  }
+
+
+  function formatPercent(value) {
+
+    if (!Number.isFinite(value)) {
+      return "--";
+    }
+
+    const sign =
+      value > 0 ? "+" : "";
+
+    return sign +
+      value.toFixed(2) +
+      "%";
+  }
+
+
+  /*
+   * ============================================================
+   * MARKET DATA
+   * ============================================================
+   */
+
+  async function loadMarketData() {
+
+    try {
+
+      const response =
+        await fetch(API_MARKETS);
+
+      if (!response.ok) {
+        throw new Error(
+          "Market API error: " +
+          response.status
+        );
+      }
+
+      const data =
+        await response.json();
+
+      const btc =
+        data.find(
+          coin => coin.id === "bitcoin"
+        );
+
+      const usdt =
+        data.find(
+          coin => coin.id === "tether"
+        );
+
+      if (!btc || !usdt) {
+        throw new Error(
+          "BTC or USDT data missing"
+        );
+      }
+
+      btcPriceEl.textContent =
+        formatPrice(btc.current_price);
+
+      btcMarketCapEl.textContent =
+        formatMoney(btc.market_cap);
+
+      usdtMarketCapEl.textContent =
+        formatMoney(usdt.market_cap);
+
+      usdtRankEl.textContent =
+        "#" + usdt.market_cap_rank;
+
+      btcChangeEl.textContent =
+        formatPercent(
+          btc.price_change_percentage_24h
+        );
+
+      usdtChangeEl.textContent =
+        formatPercent(
+          usdt.market_cap_change_percentage_24h
+        );
+
+      btcChangeEl.className =
+        "card-value " +
+        getColorClass(
+          btc.price_change_percentage_24h
+        );
+
+      usdtChangeEl.className =
+        "card-value " +
+        getColorClass(
+          usdt.market_cap_change_percentage_24h
+        );
+
+    } catch (error) {
+
+      console.error(error);
+
+      btcPriceEl.textContent = "--";
+      btcMarketCapEl.textContent = "--";
+      usdtMarketCapEl.textContent = "--";
+      usdtRankEl.textContent = "--";
+      btcChangeEl.textContent = "--";
+      usdtChangeEl.textContent = "--";
+    }
+  }
+
+
+  function getColorClass(value) {
+
+    if (value > 0) {
+      return "positive";
+    }
+
+    if (value < 0) {
+      return "negative";
+    }
+
+    return "neutral";
+  }
+
+
+  /*
+   * ============================================================
+   * CHART DATA
+   * ============================================================
+   */
+
+  async function loadChartData() {
+
+    chartStatusEl.textContent =
+      "در حال دریافت ۲۱ کندل...";
+
+    chartStatusEl.className =
+      "status loading";
+
+    try {
+
+      const url =
+        API_CHART +
+        "?vs_currency=usd" +
+        "&days=" + currentDays;
+
+      const response =
+        await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(
+          "Chart API error: " +
+          response.status
+        );
+      }
+
+      const data =
+        await response.json();
+
+      if (
+        !data.prices ||
+        data.prices.length === 0
+      ) {
+        throw new Error(
+          "No chart data"
+        );
+      }
+
+      /*
+       * فقط 21 کندل آخر
+       */
+      const last21 =
+        data.prices.slice(-MAX_CANDLES);
+
+      prices =
+        last21.map(item => ({
+          time: item[0],
+          price: Number(item[1])
+        }));
+
+      if (prices.length < 2) {
+        throw new Error(
+          "Not enough candles"
+        );
+      }
+
+      candleCountEl.textContent =
+        prices.length + " کندل";
+
+      timeframeLabelEl.textContent =
+        currentTimeframe;
+
+      chartStatusEl.textContent =
+        "تحلیل بر اساس " +
+        prices.length +
+        " کندل آخر";
+
+      chartStatusEl.className =
+        "status";
+
+      analyzeMarket();
+
+      findSupportResistance();
+
+      drawChart();
+
+    } catch (error) {
+
+      console.error(error);
+
+      chartStatusEl.textContent =
+        "خطا در دریافت اطلاعات";
+
+      chartStatusEl.className =
+        "status error";
+    }
+  }
+
+
+  /*
+   * ============================================================
+   * TREND ANALYSIS
+   * ============================================================
+   */
+
+  function analyzeMarket() {
+
+    if (prices.length < 2) {
+      return;
+    }
+
+    const values =
+      prices.map(
+        item => item.price
+      );
+
+    const first =
+      values[0];
+
+    const last =
+      values[values.length - 1];
+
+    /*
+     * CHANGE
+     */
+
+    const change =
+      ((last - first) / first) * 100;
+
+
+    /*
+     * SLOPE
+     *
+     * رگرسیون خطی ساده روی 21 کندل
+     */
+
+    const n =
+      values.length;
+
+    let sumX = 0;
+    let sumY = 0;
+    let sumXY = 0;
+    let sumXX = 0;
+
+    for (let i = 0; i < n; i++) {
+
+      const x = i;
+      const y = values[i];
+
+      sumX += x;
+      sumY += y;
+      sumXY += x * y;
+      sumXX += x * x;
+    }
+
+    const denominator =
+      n * sumXX -
+      sumX * sumX;
+
+    const slope =
+      denominator !== 0
+        ? (
+            (n * sumXY -
+            sumX * sumY) /
+            denominator
+          )
+        : 0;
+
+
+    /*
+     * تبدیل SLOPE به درصد
+     */
+
+    const slopePercent =
+      first !== 0
+        ? (
+            slope /
+            first
+          ) * 100 * n
+        : 0;
+
+
+    /*
+     * CONSISTENCY
+     *
+     * درصد حرکت‌هایی که
+     * با جهت کلی هماهنگ هستند.
+     */
+
+    let positiveMoves = 0;
+    let negativeMoves = 0;
+
+    for (
+      let i = 1;
+      i < values.length;
+      i++
+    ) {
+
+      if (
+        values[i] >
+        values[i - 1]
+      ) {
+        positiveMoves++;
+      }
+
+      else if (
+        values[i] <
+        values[i - 1]
+      ) {
+        negativeMoves++;
+      }
+    }
+
+    const totalMoves =
+      positiveMoves +
+      negativeMoves;
+
+    let consistency = 0;
+
+    if (totalMoves > 0) {
+
+      if (change > 0) {
+
+        consistency =
+          positiveMoves /
+          totalMoves;
+
+      } else if (change < 0) {
+
+        consistency =
+          negativeMoves /
+          totalMoves;
+
+      } else {
+
+        consistency = 0.5;
+      }
+    }
+
+
+    /*
+     * SCORE
+     */
+
+    let changeScore =
+      clamp(change / 5, -1, 1);
+
+    let slopeScore =
+      clamp(slopePercent / 5, -1, 1);
+
+    let consistencyScore;
+
+    if (change > 0) {
+
+      consistencyScore =
+        (consistency - 0.5) * 2;
+
+    } else if (change < 0) {
+
+      consistencyScore =
+        -((consistency - 0.5) * 2);
+
+    } else {
+
+      consistencyScore = 0;
+    }
+
+
+    const score =
+      (
+        changeScore * 0.40
+      ) +
+      (
+        slopeScore * 0.35
+      ) +
+      (
+        consistencyScore * 0.25
+      );
+
+
+    /*
+     * UPDATE UI
+     */
+
+    changeMetricEl.textContent =
+      formatPercent(change);
+
+    slopeMetricEl.textContent =
+      formatPercent(slopePercent);
+
+    consistencyMetricEl.textContent =
+      (
+        consistency * 100
+      ).toFixed(1) +
+      "%";
+
+    trendScoreEl.textContent =
+      score.toFixed(3);
+
+    updateDirection(score);
+  }
+
+
+  function clamp(
+    value,
+    min,
+    max
+  ) {
+
+    return Math.max(
+      min,
+      Math.min(
+        max,
+        value
+      )
+    );
+  }
+
+
+  /*
+   * ============================================================
+   * DIRECTION
+   * ============================================================
+   */
+
+  function updateDirection(score) {
+
+    directionEl.className =
+      "direction";
+
+    directionTextEl.className =
+      "direction-text";
+
+    if (score >= 0.15) {
+
+      directionEl.textContent =
+        "↑";
+
+      directionTextEl.textContent =
+        "صعودی";
+
+      directionTextEl.classList.add(
+        "positive"
+      );
+
+    }
+
+    else if (score <= -0.15) {
+
+      directionEl.textContent =
+        "↓";
+
+      directionTextEl.textContent =
+        "نزولی";
+
+      directionTextEl.classList.add(
+        "negative"
+      );
+
+    }
+
+    else {
+
+      directionEl.textContent =
+        "→";
+
+      directionTextEl.textContent =
+        "خنثی";
+
+      directionTextEl.classList.add(
+        "neutral"
+      );
+    }
+  }
+
+
+  /*
+   * ============================================================
+   * SUPPORT / RESISTANCE
+   * ============================================================
+   *
+   * فقط روی 21 کندل آخر
+   */
+
+  function findSupportResistance() {
+
+    supports = [];
+    resistances = [];
+
+    if (prices.length < 5) {
+      return;
+    }
+
+    const values =
+      prices.map(
+        item => item.price
+      );
+
+    const currentPrice =
+      values[values.length - 1];
+
+
+    /*
+     * Swing Detection
+     */
+
+    for (
+      let i = 2;
+      i < values.length - 2;
+      i++
+    ) {
+
+      const current =
+        values[i];
+
+      const isHigh =
+        current > values[i - 1] &&
+        current > values[i - 2] &&
+        current > values[i + 1] &&
+        current > values[i + 2];
+
+      const isLow =
+        current < values[i - 1] &&
+        current < values[i - 2] &&
+        current < values[i + 1] &&
+        current < values[i + 2];
+
+
+      if (isHigh) {
+
+        if (
+          current >
+          currentPrice
+        ) {
+
+          resistances.push({
+            price: current,
+            index: i
+          });
+
+        }
+
+      }
+
+
+      if (isLow) {
+
+        if (
+          current <
+          currentPrice
+        ) {
+
+          supports.push({
+            price: current,
+            index: i
+          });
+
+        }
+      }
+    }
+
+
+    /*
+     * نزدیک‌ترین سطوح
+     */
+
+    supports.sort(
+      (a, b) =>
+        currentPrice - b.price -
+        (
+          currentPrice - a.price
+        )
+    );
+
+    resistances.sort(
+      (a, b) =>
+        a.price - currentPrice -
+        (
+          b.price - currentPrice
+        )
+    );
+
+
+    supports =
+      supports.slice(0, 5);
+
+    resistances =
+      resistances.slice(0, 5);
+
+
+    renderSupportResistance();
+  }
+
+
+  function renderSupportResistance() {
+
+    if (supports.length === 0) {
+
+      supportLevelsEl.innerHTML =
+        `<div class="level">
+          <span>حمایت مشخصی پیدا نشد</span>
+        </div>`;
+
+    } else {
+
+      supportLevelsEl.innerHTML =
+        supports
+          .map(
+            (level, index) => `
+              <div class="level">
+                <span>
+                  حمایت ${index + 1}
+                </span>
+
+                <span class="level-price positive">
+                  ${formatPrice(level.price)}
+                </span>
+              </div>
+            `
+          )
+          .join("");
+    }
+
+
+    if (resistances.length === 0) {
+
+      resistanceLevelsEl.innerHTML =
+        `<div class="level">
+          <span>مقاومت مشخصی پیدا نشد</span>
+        </div>`;
+
+    } else {
+
+      resistanceLevelsEl.innerHTML =
+        resistances
+          .map(
+            (level, index) => `
+              <div class="level">
+                <span>
+                  مقاومت ${index + 1}
+                </span>
+
+                <span class="level-price negative">
+                  ${formatPrice(level.price)}
+                </span>
+              </div>
+            `
+          )
+          .join("");
+    }
+  }
+
+
+  /*
+   * ============================================================
+   * DRAW CHART
+   * ============================================================
+   */
+
+  function resizeCanvas() {
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+    const ratio =
+      window.devicePixelRatio || 1;
+
+    canvas.width =
+      rect.width * ratio;
+
+    canvas.height =
+      rect.height * ratio;
+
+    ctx.setTransform(
+      ratio,
+      0,
+      0,
+      ratio,
+      0,
+      0
+    );
+  }
+
+
+  function drawChart() {
+
+    if (prices.length < 2) {
+      return;
+    }
+
+    resizeCanvas();
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+    const width =
+      rect.width;
+
+    const height =
+      rect.height;
+
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    /*
+     * Background
+     */
+
+    ctx.fillStyle =
+      "#0c0f15";
+
+    ctx.fillRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    const values =
+      prices.map(
+        item => item.price
+      );
+
+
+    let min =
+      Math.min(...values);
+
+    let max =
+      Math.max(...values);
+
+
+    /*
+     * حمایت و مقاومت هم
+     * داخل محدوده نمودار باشند.
+     */
+
+    supports.forEach(
+      level => {
+        min =
+          Math.min(
+            min,
+            level.price
+          );
       }
     );
 
-}
-
-
-
-/*
-====================================================
- AVERAGE
-====================================================
-*/
-
-
-function average(array) {
-
-
-  if (!array.length)
-    return 0;
-
-
-  return array.reduce(
-    (a,b) => a+b,
-    0
-  ) / array.length;
-
-}
-
-
-
-/*
-====================================================
- CHANGE
-====================================================
-*/
-
-
-function calculateChange(
-  prices
-) {
-
-
-  if (
-    prices.length < 2
-  )
-    return 0;
-
-
-  const first =
-    prices[0];
-
-
-  const last =
-    prices[
-      prices.length - 1
-    ];
-
-
-  return (
-    (last - first) /
-    first
-  ) * 100;
-
-}
-
-
-
-/*
-====================================================
- SLOPE
-====================================================
-*/
-
-
-function calculateSlope(
-  prices
-) {
-
-
-  const n =
-    prices.length;
-
-
-  if (n < 2)
-    return 0;
-
-
-  let sumX = 0;
-
-  let sumY = 0;
-
-  let sumXY = 0;
-
-  let sumXX = 0;
-
-
-  for (
-    let i=0;
-    i<n;
-    i++
-  ) {
-
-    sumX += i;
-
-    sumY += prices[i];
-
-    sumXY +=
-      i * prices[i];
-
-    sumXX +=
-      i * i;
-
-  }
-
-
-  const denominator =
-    n * sumXX -
-    sumX * sumX;
-
-
-  if (
-    denominator === 0
-  )
-    return 0;
-
-
-  return (
-    n * sumXY -
-    sumX * sumY
-  ) / denominator;
-
-}
-
-
-
-/*
-====================================================
- NORMALIZED SLOPE
-====================================================
-*/
-
-
-function normalizedSlope(
-  prices
-) {
-
-
-  const slope =
-    calculateSlope(
-      prices
+    resistances.forEach(
+      level => {
+        max =
+          Math.max(
+            max,
+            level.price
+          );
+      }
     );
 
 
-  const avg =
-    average(
-      prices
-    );
+    const padding = 25;
+
+    const range =
+      max - min || 1;
 
 
-  if (!avg)
-    return 0;
+    /*
+     * Grid
+     */
 
+    ctx.strokeStyle =
+      "#202530";
 
-  return (
-    slope / avg
-  ) * 100;
+    ctx.lineWidth = 1;
 
-}
-
-
-
-/*
-====================================================
- CONSISTENCY
-====================================================
-*/
-
-
-function calculateConsistency(
-  prices
-) {
-
-
-  if (
-    prices.length < 2
-  )
-    return 0;
-
-
-  let up = 0;
-
-  let down = 0;
-
-
-  for (
-    let i=1;
-    i<prices.length;
-    i++
-  ) {
-
-
-    if (
-      prices[i] >
-      prices[i-1]
+    for (
+      let i = 1;
+      i < 5;
+      i++
     ) {
 
-      up++;
+      const y =
+        padding +
+        (
+          (height - padding * 2) *
+          i / 5
+        );
 
+      ctx.beginPath();
+
+      ctx.moveTo(
+        0,
+        y
+      );
+
+      ctx.lineTo(
+        width,
+        y
+      );
+
+      ctx.stroke();
     }
 
 
-    else if (
-      prices[i] <
-      prices[i-1]
-    ) {
-
-      down++;
-
-    }
-
-  }
-
-
-  const total =
-    up + down;
-
-
-  if (!total)
-    return 0;
-
-
-  return (
-    Math.max(
-      up,
-      down
-    ) / total
-  ) * 100;
-
-}
-
-
-
-/*
-====================================================
- TREND SCORE
-====================================================
-*/
-
-
-function calculateTrendScore(
-  change,
-  slope,
-  consistency
-) {
-
-
-  const changeScore =
-    Math.max(
-      -1,
-      Math.min(
-        1,
-        change / 5
-      )
-    );
-
-
-  const slopeScore =
-    Math.max(
-      -1,
-      Math.min(
-        1,
-        slope / 0.15
-      )
-    );
-
-
-  let consistencyScore =
-    0;
-
-
-  if (
-    change > 0
-  ) {
-
-    consistencyScore =
-      consistency / 100;
-
-  }
-
-
-  else if (
-    change < 0
-  ) {
-
-    consistencyScore =
-      -consistency / 100;
-
-  }
-
-
-  return (
-
-    changeScore * 0.40 +
-
-    slopeScore * 0.35 +
-
-    consistencyScore * 0.25
-
-  );
-
-}
-
-
-
-/*
-====================================================
- DIRECTION
-====================================================
-*/
-
-
-function getDirection(
-  score
-) {
-
-
-  if (
-    score >= 0.15
-  ) {
-
-    return {
-
-      arrow: "↑",
-
-      text: "روند صعودی",
-
-      className: "up"
-
-    };
-
-  }
-
-
-  if (
-    score <= -0.15
-  ) {
-
-    return {
-
-      arrow: "↓",
-
-      text: "روند نزولی",
-
-      className: "down"
-
-    };
-
-  }
-
-
-  return {
-
-    arrow: "→",
-
-    text: "خنثی / نامشخص",
-
-    className: "neutral"
-
-  };
-
-}
-
-
-
-/*
-====================================================
- SUPPORT / RESISTANCE
-====================================================
-*/
-
-
-function findSupportResistance(
-  prices
-) {
-
-
-  if (
-    prices.length < 10
-  ) {
-
-    return {
-
-      supports: [],
-
-      resistances: []
-
-    };
-
-  }
-
-
-  const highs = [];
-
-  const lows = [];
-
-
-  /*
-   * پیدا کردن Swing High / Low
-   */
-
-  for (
-    let i=2;
-    i<prices.length-2;
-    i++
-  ) {
-
-
-    const p =
-      prices[i];
-
-
-    if (
-
-      p > prices[i-1] &&
-
-      p > prices[i-2] &&
-
-      p > prices[i+1] &&
-
-      p > prices[i+2]
-
-    ) {
-
-      highs.push(p);
-
-    }
-
-
-    if (
-
-      p < prices[i-1] &&
-
-      p < prices[i-2] &&
-
-      p < prices[i+1] &&
-
-      p < prices[i+2]
-
-    ) {
-
-      lows.push(p);
-
-    }
-
-  }
-
-
-  /*
-   * آخرین قیمت
-   */
-
-  const current =
-    prices[
-      prices.length-1
-    ];
-
-
-  /*
-   * مقاومت‌ها
-   * بالاتر از قیمت فعلی
-   */
-
-  const resistanceCandidates =
-    highs
-
-      .filter(
-        x => x > current
-      )
-
-      .sort(
-        (a,b) => a-b
+    /*
+     * Support Lines
+     */
+
+    supports
+      .slice(0, 3)
+      .forEach(
+        level => {
+
+          const y =
+            height -
+            padding -
+            (
+              (level.price - min) /
+              range
+            ) *
+            (height - padding * 2);
+
+          ctx.strokeStyle =
+            "rgba(49,209,124,0.45)";
+
+          ctx.setLineDash([
+            5,
+            5
+          ]);
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            0,
+            y
+          );
+
+          ctx.lineTo(
+            width,
+            y
+          );
+
+          ctx.stroke();
+
+          ctx.setLineDash([]);
+        }
       );
 
 
-  /*
-   * حمایت‌ها
-   * پایین‌تر از قیمت فعلی
-   */
-
-  const supportCandidates =
-    lows
-
-      .filter(
-        x => x < current
-      )
-
-      .sort(
-        (a,b) => b-a
-      );
-
-
-  /*
-   * فقط نزدیک‌ترین سطوح
-   */
-
-  const resistances =
-    resistanceCandidates
-      .slice(0,5);
-
-
-  const supports =
-    supportCandidates
-      .slice(0,5);
-
-
-  return {
-
-    supports,
+    /*
+     * Resistance Lines
+     */
 
     resistances
+      .slice(0, 3)
+      .forEach(
+        level => {
 
-  };
+          const y =
+            height -
+            padding -
+            (
+              (level.price - min) /
+              range
+            ) *
+            (height - padding * 2);
 
-}
+          ctx.strokeStyle =
+            "rgba(255,93,108,0.45)";
 
+          ctx.setLineDash([
+            5,
+            5
+          ]);
 
+          ctx.beginPath();
 
-/*
-====================================================
- DRAW CHART
-====================================================
-*/
+          ctx.moveTo(
+            0,
+            y
+          );
 
+          ctx.lineTo(
+            width,
+            y
+          );
 
-function drawChart(
-  prices,
-  times,
-  sr
-) {
+          ctx.stroke();
 
-
-  const canvas =
-    document.getElementById(
-      "chart"
-    );
-
-
-  const wrapper =
-    document.getElementById(
-      "chartWrapper"
-    );
-
-
-  const dpr =
-    window.devicePixelRatio ||
-    1;
-
-
-  const width =
-    wrapper.clientWidth;
+          ctx.setLineDash([]);
+        }
+      );
 
 
-  const height =
-    wrapper.clientHeight;
+    /*
+     * Price Line
+     */
 
+    ctx.strokeStyle =
+      "#f4c542";
 
-  canvas.width =
-    width * dpr;
-
-
-  canvas.height =
-    height * dpr;
-
-
-  canvas.style.width =
-    width + "px";
-
-
-  canvas.style.height =
-    height + "px";
-
-
-  const ctx =
-    canvas.getContext(
-      "2d"
-    );
-
-
-  ctx.scale(
-    dpr,
-    dpr
-  );
-
-
-  if (
-    !prices.length
-  )
-    return;
-
-
-  /*
-   * Min / Max
-   */
-
-  let min =
-    Math.min(...prices);
-
-
-  let max =
-    Math.max(...prices);
-
-
-  /*
-   * اضافه کردن Support / Resistance
-   */
-
-  sr.supports.forEach(
-    x => {
-
-      min =
-        Math.min(
-          min,
-          x
-        );
-
-    }
-  );
-
-
-  sr.resistances.forEach(
-    x => {
-
-      max =
-        Math.max(
-          max,
-          x
-        );
-
-    }
-  );
-
-
-  const padding =
-    25;
-
-
-  const chartWidth =
-    width -
-    padding * 2;
-
-
-  const chartHeight =
-    height -
-    padding * 2;
-
-
-  const range =
-    max - min || 1;
-
-
-  /*
-   * Grid
-   */
-
-  ctx.strokeStyle =
-    "#17212b";
-
-
-  ctx.lineWidth =
-    1;
-
-
-  for (
-    let i=1;
-    i<5;
-    i++
-  ) {
-
-    const y =
-      padding +
-      chartHeight *
-      i / 5;
-
+    ctx.lineWidth = 2;
 
     ctx.beginPath();
 
 
-    ctx.moveTo(
-      padding,
-      y
+    values.forEach(
+      (price, index) => {
+
+        const x =
+          padding +
+          (
+            index /
+            (values.length - 1)
+          ) *
+          (
+            width -
+            padding * 2
+          );
+
+        const y =
+          height -
+          padding -
+          (
+            (price - min) /
+            range
+          ) *
+          (
+            height -
+            padding * 2
+          );
+
+
+        if (index === 0) {
+
+          ctx.moveTo(
+            x,
+            y
+          );
+
+        } else {
+
+          ctx.lineTo(
+            x,
+            y
+          );
+        }
+
+      }
     );
-
-
-    ctx.lineTo(
-      width-padding,
-      y
-    );
-
 
     ctx.stroke();
 
-  }
 
+    /*
+     * Current Price Point
+     */
 
-  /*
-   * تبدیل قیمت به مختصات
-   */
+    const lastIndex =
+      values.length - 1;
 
-  function yFromPrice(
-    price
-  ) {
+    const lastPrice =
+      values[lastIndex];
 
-    return (
+    const lastX =
       padding +
       (
-        max-price
-      ) /
-      range *
-      chartHeight
-    );
-
-  }
-
-
-  /*
-   * Support Lines
-   */
-
-  sr.supports
-    .slice(0,3)
-    .forEach(
-      level => {
-
-        const y =
-          yFromPrice(
-            level
-          );
-
-
-        ctx.strokeStyle =
-          "#43c99b";
-
-
-        ctx.setLineDash([
-          6,5
-        ]);
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-          padding,
-          y
-        );
-
-
-        ctx.lineTo(
-          width-padding,
-          y
-        );
-
-
-        ctx.stroke();
-
-
-        ctx.setLineDash([]);
-
-      }
-    );
-
-
-  /*
-   * Resistance Lines
-   */
-
-  sr.resistances
-    .slice(0,3)
-    .forEach(
-      level => {
-
-        const y =
-          yFromPrice(
-            level
-          );
-
-
-        ctx.strokeStyle =
-          "#ff6878";
-
-
-        ctx.setLineDash([
-          6,5
-        ]);
-
-
-        ctx.beginPath();
-
-
-        ctx.moveTo(
-          padding,
-          y
-        );
-
-
-        ctx.lineTo(
-          width-padding,
-          y
-        );
-
-
-        ctx.stroke();
-
-
-        ctx.setLineDash([]);
-
-      }
-    );
-
-
-  /*
-   * Price Line
-   */
-
-  ctx.strokeStyle =
-    "#e5bd55";
-
-
-  ctx.lineWidth =
-    2;
-
-
-  ctx.beginPath();
-
-
-  prices.forEach(
-    (price,index) => {
-
-      const x =
-        padding +
-        (
-          index /
-          (prices.length-1)
-        ) *
-        chartWidth;
-
-
-      const y =
-        yFromPrice(
-          price
-        );
-
-
-      if (
-        index === 0
-      ) {
-
-        ctx.moveTo(
-          x,
-          y
-        );
-
-      }
-
-      else {
-
-        ctx.lineTo(
-          x,
-          y
-        );
-
-      }
-
-    }
-  );
-
-
-  ctx.stroke();
-
-
-  /*
-   * Current price
-   */
-
-  const last =
-    prices[
-      prices.length-1
-    ];
-
-
-  const lastX =
-    width-padding;
-
-
-  const lastY =
-    yFromPrice(
-      last
-    );
-
-
-  ctx.fillStyle =
-    "#ffffff";
-
-
-  ctx.beginPath();
-
-
-  ctx.arc(
-    lastX,
-    lastY,
-    4,
-    0,
-    Math.PI*2
-  );
-
-
-  ctx.fill();
-
-
-}
-
-
-
-/*
-====================================================
- DISPLAY SUPPORT / RESISTANCE
-====================================================
-*/
-
-
-function displayLevels(
-  sr
-) {
-
-
-  const support =
-    document.getElementById(
-      "support"
-    );
-
-
-  const resistance =
-    document.getElementById(
-      "resistance"
-    );
-
-
-  const supportLevels =
-    document.getElementById(
-      "supportLevels"
-    );
-
-
-  const resistanceLevels =
-    document.getElementById(
-      "resistanceLevels"
-    );
-
-
-  if (
-    sr.supports.length
-  ) {
-
-    support.textContent =
-      money(
-        sr.supports[0]
-      );
-
-
-    supportLevels.innerHTML =
-      sr.supports
-        .slice(0,5)
-        .map(
-          x => money(x)
-        )
-        .join("<br>");
-
-  }
-
-  else {
-
-    support.textContent =
-      "--";
-
-    supportLevels.textContent =
-      "حمایت مشخص پیدا نشد";
-
-  }
-
-
-  if (
-    sr.resistances.length
-  ) {
-
-    resistance.textContent =
-      money(
-        sr.resistances[0]
-      );
-
-
-    resistanceLevels.innerHTML =
-      sr.resistances
-        .slice(0,5)
-        .map(
-          x => money(x)
-        )
-        .join("<br>");
-
-  }
-
-  else {
-
-    resistance.textContent =
-      "--";
-
-    resistanceLevels.textContent =
-      "مقاومت مشخص پیدا نشد";
-
-  }
-
-}
-
-
-
-/*
-====================================================
- LOAD MARKET
-====================================================
-*/
-
-
-async function loadMarket() {
-
-
-  const data =
-    await getMarketData();
-
-
-  const btc =
-    data.find(
-      x => x.id === "bitcoin"
-    );
-
-
-  const usdt =
-    data.find(
-      x => x.id === "tether"
-    );
-
-
-  if (btc) {
-
-
-    document.getElementById(
-      "btcPrice"
-    ).textContent =
-      money(
-        btc.current_price
-      );
-
-
-    document.getElementById(
-      "btcMarketCap"
-    ).textContent =
-      money(
-        btc.market_cap
-      );
-
-
-    const change =
-      btc.price_change_percentage_24h;
-
-
-    const element =
-      document.getElementById(
-        "btc24h"
-      );
-
-
-    element.textContent =
+        lastIndex /
+        (values.length - 1)
+      ) *
       (
-        change >= 0
-          ? "+"
-          : ""
-      ) +
-      change.toFixed(2) +
-      "% / 24h";
+        width -
+        padding * 2
+      );
 
-
-    element.className =
-      "market-change " +
+    const lastY =
+      height -
+      padding -
       (
-        change > 0
-          ? "up"
-          : change < 0
-            ? "down"
-            : "neutral"
-      );
-
-  }
-
-
-  if (usdt) {
-
-
-    document.getElementById(
-      "usdtMarketCap"
-    ).textContent =
-      money(
-        usdt.market_cap
-      );
-
-
-    const change =
-      usdt.market_cap_change_percentage_24h;
-
-
-    const element =
-      document.getElementById(
-        "usdt24h"
-      );
-
-
-    element.textContent =
+        (lastPrice - min) /
+        range
+      ) *
       (
-        change >= 0
-          ? "+"
-          : ""
-      ) +
-      change.toFixed(2) +
-      "% Market Cap / 24h";
-
-
-    element.className =
-      "market-change " +
-      (
-        change > 0
-          ? "up"
-          : change < 0
-            ? "down"
-            : "neutral"
+        height -
+        padding * 2
       );
 
 
-    document.getElementById(
-      "usdtRank"
-    ).textContent =
-      "#" +
-      usdt.market_cap_rank;
+    ctx.fillStyle =
+      "#f4c542";
 
-  }
+    ctx.beginPath();
 
-}
-
-
-
-/*
-====================================================
- LOAD CHART
-====================================================
-*/
-
-
-async function loadChart() {
-
-
-  const data =
-    await getChartData(
-      currentTimeframe
+    ctx.arc(
+      lastX,
+      lastY,
+      5,
+      0,
+      Math.PI * 2
     );
 
-
-  let prices =
-    data.prices || [];
+    ctx.fill();
 
 
-  /*
-   * حداکثر ۴۰۰ داده
-   */
+    /*
+     * Price Label
+     */
 
-  if (
-    prices.length > 400
-  ) {
+    ctx.fillStyle =
+      "#ffffff";
 
-    prices =
-      prices.slice(
-        prices.length - 400
-      );
+    ctx.font =
+      "12px Tahoma";
 
-  }
+    ctx.textAlign =
+      "left";
 
-
-  currentPrices =
-    prices.map(
-      x => x[1]
+    ctx.fillText(
+      formatPrice(lastPrice),
+      8,
+      18
     );
-
-
-  currentTimes =
-    prices.map(
-      x => x[0]
-    );
-
-
-  if (
-    !currentPrices.length
-  ) {
-
-    throw new Error(
-      "داده نمودار موجود نیست."
-    );
-
   }
 
 
   /*
-   * اطلاعات قیمت
+   * ============================================================
+   * TIMEFRAME BUTTONS
+   * ============================================================
    */
-
-  const current =
-    currentPrices[
-      currentPrices.length-1
-    ];
-
-
-  const change =
-    calculateChange(
-      currentPrices
-    );
-
-
-  document.getElementById(
-    "price"
-  ).textContent =
-    money(current);
-
-
-  const priceChange =
-    document.getElementById(
-      "priceChange"
-    );
-
-
-  priceChange.textContent =
-    (
-      change >= 0
-        ? "+"
-        : ""
-    ) +
-    change.toFixed(2) +
-    "%";
-
-
-  priceChange.className =
-    "price-change " +
-    (
-      change > 0
-        ? "up"
-        : change < 0
-          ? "down"
-          : "neutral"
-    );
-
-
-  /*
-   * Trend
-   */
-
-  const slope =
-    normalizedSlope(
-      currentPrices
-    );
-
-
-  const consistency =
-    calculateConsistency(
-      currentPrices
-    );
-
-
-  const score =
-    calculateTrendScore(
-      change,
-      slope,
-      consistency
-    );
-
-
-  const direction =
-    getDirection(
-      score
-    );
-
-
-  document.getElementById(
-    "trendArrow"
-  ).textContent =
-    direction.arrow;
-
-
-  document.getElementById(
-    "trendArrow"
-  ).className =
-    "arrow " +
-    direction.className;
-
-
-  document.getElementById(
-    "trendText"
-  ).textContent =
-    direction.text;
-
-
-  document.getElementById(
-    "trendText"
-  ).className =
-    "trend-text " +
-    direction.className;
-
-
-  document.getElementById(
-    "trendScore"
-  ).textContent =
-    (
-      score >= 0
-        ? "+"
-        : ""
-    ) +
-    score.toFixed(3);
-
-
-  document.getElementById(
-    "change"
-  ).textContent =
-    change.toFixed(2) +
-    "%";
-
-
-  document.getElementById(
-    "slope"
-  ).textContent =
-    slope.toFixed(4) +
-    "%";
-
-
-  document.getElementById(
-    "consistency"
-  ).textContent =
-    consistency.toFixed(1) +
-    "%";
-
-
-  /*
-   * Support / Resistance
-   */
-
-  const sr =
-    findSupportResistance(
-      currentPrices
-    );
-
-
-  displayLevels(
-    sr
-  );
-
-
-  /*
-   * Chart
-   */
-
-  drawChart(
-    currentPrices,
-    currentTimes,
-    sr
-  );
-
-
-  /*
-   * تاریخ ابتدا / انتها
-   */
-
-  const start =
-    new Date(
-      currentTimes[0]
-    );
-
-
-  const end =
-    new Date(
-      currentTimes[
-        currentTimes.length-1
-      ]
-    );
-
-
-  document.getElementById(
-    "chartStart"
-  ).textContent =
-    start.toLocaleDateString(
-      "fa-IR"
-    );
-
-
-  document.getElementById(
-    "chartEnd"
-  ).textContent =
-    end.toLocaleDateString(
-      "fa-IR"
-    );
-
-}
-
-
-
-/*
-====================================================
- CHANGE TIMEFRAME
-====================================================
-*/
-
-
-async function changeTimeframe(
-  timeframe
-) {
-
-
-  currentTimeframe =
-    timeframe;
-
 
   document
-    .querySelectorAll(
-      ".timeframe"
-    )
+    .querySelectorAll(".tf-btn")
     .forEach(
       button => {
 
-        button.classList.toggle(
-          "active",
-          button.dataset.tf ===
-          timeframe
-        );
+        button.addEventListener(
+          "click",
+          () => {
 
+            document
+              .querySelectorAll(
+                ".tf-btn"
+              )
+              .forEach(
+                btn =>
+                  btn.classList.remove(
+                    "active"
+                  )
+              );
+
+            button.classList.add(
+              "active"
+            );
+
+            currentDays =
+              Number(
+                button.dataset.days
+              );
+
+            currentTimeframe =
+              button.dataset.name;
+
+            loadChartData();
+          }
+        );
       }
     );
 
 
-  document.getElementById(
-    "currentTF"
-  ).textContent =
-    timeframe;
+  /*
+   * ============================================================
+   * REFRESH
+   * ============================================================
+   */
 
+  async function refreshAll() {
 
-  try {
+    await loadMarketData();
 
-    await loadChart();
-
+    await loadChartData();
   }
 
-  catch(error) {
 
-    showError(
-      error.message
-    );
+  /*
+   * شروع برنامه
+   */
 
-  }
-
-}
+  refreshAll();
 
 
+  /*
+   * هر 60 ثانیه آپدیت
+   */
 
-/*
-====================================================
- LOAD ALL
-====================================================
-*/
-
-
-async function loadAll() {
-
-
-  clearError();
-
-
-  setStatus(
-    "در حال دریافت اطلاعات بازار..."
+  setInterval(
+    refreshAll,
+    60000
   );
 
 
-  try {
+  /*
+   * تغییر اندازه صفحه
+   */
 
+  window.addEventListener(
+    "resize",
+    () => {
 
-    await Promise.all([
-
-      loadMarket(),
-
-      loadChart()
-
-    ]);
-
-
-    setStatus(
-      "اطلاعات با موفقیت بروزرسانی شد ✓"
-    );
-
-
-  }
-
-  catch(error) {
-
-
-    console.error(
-      error
-    );
-
-
-    showError(
-      error.message
-    );
-
-
-    setStatus(
-      "دریافت اطلاعات با خطا مواجه شد"
-    );
-
-  }
-
-}
-
-
-
-/*
-====================================================
- STATUS
-====================================================
-*/
-
-
-function setStatus(
-  text
-) {
-
-  document.getElementById(
-    "status"
-  ).textContent =
-    text;
-
-}
-
-
-
-/*
-====================================================
- ERROR
-====================================================
-*/
-
-
-function showError(
-  text
-) {
-
-  document.getElementById(
-    "error"
-  ).textContent =
-    "خطا: " +
-    text;
-
-}
-
-
-
-/*
-====================================================
- CLEAR ERROR
-====================================================
-*/
-
-
-function clearError() {
-
-  document.getElementById(
-    "error"
-  ).textContent =
-    "";
-
-}
-
-
-
-/*
-====================================================
- RESIZE
-====================================================
-*/
-
-
-window.addEventListener(
-  "resize",
-  () => {
-
-    if (
-      currentPrices.length
-    ) {
-
-      const sr =
-        findSupportResistance(
-          currentPrices
-        );
-
-
-      drawChart(
-        currentPrices,
-        currentTimes,
-        sr
-      );
+      if (prices.length > 0) {
+        drawChart();
+      }
 
     }
-
-  }
-);
-
-
-
-/*
-====================================================
- START
-====================================================
-*/
-
-
-loadAll();
-
-
-/*
- * بروزرسانی خودکار:
- * هر 60 ثانیه
- */
-
-setInterval(
-  loadAll,
-  60000
-);
-
+  );
 
 </script>
 
-
 </body>
-
 </html>
