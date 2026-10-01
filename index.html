@@ -2,9 +2,14 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Market Direction Assistant V0</title>
+  <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no">
+
+  <title>Market Direction V0.1</title>
 
   <style>
     * {
@@ -13,169 +18,187 @@
 
     body {
       margin: 0;
-      background: #0b0f14;
-      color: #f5f5f5;
       font-family: Tahoma, Arial, sans-serif;
+      background: #0b0f14;
+      color: #e8edf2;
     }
 
     .container {
       width: 100%;
       max-width: 900px;
       margin: auto;
-      padding: 16px;
+      padding: 15px;
     }
 
-    .header {
-      background: #121820;
-      border: 1px solid #26303b;
+    header {
+      background: linear-gradient(135deg, #111923, #172330);
+      border: 1px solid #263442;
       border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+      text-align: center;
     }
 
-    .title {
+    header h1 {
+      margin: 0 0 8px;
       font-size: 24px;
-      font-weight: bold;
+      color: #f4c95d;
     }
 
-    .subtitle {
-      margin-top: 8px;
-      color: #8995a3;
+    header p {
+      margin: 0;
+      color: #9eabb8;
       font-size: 13px;
     }
 
     .card {
-      background: #121820;
-      border: 1px solid #26303b;
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: bold;
+      background: #111820;
+      border: 1px solid #263442;
+      border-radius: 16px;
+      padding: 15px;
       margin-bottom: 15px;
     }
 
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+    .card h2 {
+      margin-top: 0;
+      font-size: 17px;
+      color: #f4c95d;
     }
 
-    .upload-box {
+    .chart-box {
+      border: 1px solid #293746;
       background: #0d131a;
-      border: 1px dashed #45515f;
       border-radius: 14px;
-      padding: 15px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
 
-    .upload-title {
-      font-weight: bold;
+    .chart-title {
+      font-size: 15px;
       margin-bottom: 10px;
+      font-weight: bold;
     }
 
     input[type="file"] {
       width: 100%;
-      color: #aeb8c4;
-      font-size: 12px;
+      padding: 10px;
+      background: #151e27;
+      color: #cbd5df;
+      border: 1px solid #344454;
+      border-radius: 10px;
     }
 
     .preview {
       display: none;
       width: 100%;
-      max-height: 200px;
+      max-height: 350px;
       object-fit: contain;
       margin-top: 12px;
       border-radius: 10px;
-      background: #080c10;
-    }
-
-    .analyze-btn {
-      width: 100%;
-      border: 0;
-      border-radius: 14px;
-      padding: 16px;
-      background: #d4a72c;
-      color: #111;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .analyze-btn:active {
-      transform: scale(0.98);
+      border: 1px solid #263442;
+      background: #000;
     }
 
     .status {
-      margin-top: 12px;
-      background: #0d131a;
-      border-radius: 12px;
-      padding: 13px;
-      color: #aeb8c4;
-      text-align: center;
-    }
-
-    .result {
-      display: none;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0d131a;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 8px;
-    }
-
-    .row-value {
-      font-weight: bold;
-    }
-
-    .decision {
-      text-align: center;
-      background: #0d131a;
-      border-radius: 15px;
-      padding: 22px;
-      margin-top: 15px;
-    }
-
-    .decision-label {
-      color: #8995a3;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 9px;
+      background: #151e27;
+      color: #9eabb8;
       font-size: 13px;
     }
 
-    .decision-value {
-      font-size: 28px;
+    .received {
+      color: #64d99a;
+    }
+
+    .waiting {
+      color: #f4c95d;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 16px;
       font-weight: bold;
-      margin-top: 8px;
+      cursor: pointer;
+      background: #f4c95d;
+      color: #111;
+      margin-top: 5px;
     }
 
-    .warning {
-      color: #aeb8c4;
-      font-size: 12px;
-      line-height: 1.9;
-      margin-top: 15px;
+    button:active {
+      transform: scale(0.98);
     }
 
-    .footer {
-      text-align: center;
-      color: #596572;
-      font-size: 11px;
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result-box {
+      background: #0d131a;
+      border: 1px solid #293746;
+      border-radius: 14px;
       padding: 15px;
     }
 
-    @media (max-width: 600px) {
-      .charts {
-        grid-template-columns: 1fr;
-      }
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #202c38;
+    }
 
-      .title {
-        font-size: 21px;
-      }
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #8f9daa;
+    }
+
+    .value {
+      font-weight: bold;
+      color: #e8edf2;
+    }
+
+    .main-decision {
+      text-align: center;
+      margin-top: 15px;
+      padding: 20px;
+      border-radius: 14px;
+      background: #151e27;
+      border: 1px solid #344454;
+    }
+
+    .decision-title {
+      color: #9eabb8;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .decision {
+      font-size: 28px;
+      font-weight: bold;
+      color: #f4c95d;
+    }
+
+    .small {
+      font-size: 11px;
+      color: #71808f;
+      line-height: 1.8;
+      margin-top: 10px;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 12px;
+      color: #f4c95d;
     }
   </style>
 </head>
@@ -184,108 +207,128 @@
 
 <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="title">
-      Market Direction Assistant
-    </div>
-
-    <div class="subtitle">
-      تحلیلگر کنار دست معامله‌گر · V0
-    </div>
-  </div>
+  <header>
+    <h1>Market Direction V0.1</h1>
+    <p>تحلیلگر هوشمند کنار دست معامله‌گر</p>
+  </header>
 
 
-  <!-- CHART UPLOAD -->
+  <!-- دریافت چارت‌ها -->
   <div class="card">
 
-    <div class="card-title">
-      📊 چارت‌های بازار
+    <h2>📊 دریافت چارت‌ها</h2>
+
+    <!-- BTC -->
+    <div class="chart-box">
+
+      <div class="chart-title">
+        ₿ چارت BTC
+      </div>
+
+      <input
+        type="file"
+        id="btcInput"
+        accept="image/*"
+      >
+
+      <img
+        id="btcPreview"
+        class="preview"
+        alt="BTC Chart"
+      >
+
+      <div
+        id="btcStatus"
+        class="status"
+      >
+        هنوز چارت BTC دریافت نشده
+      </div>
+
     </div>
 
-    <div class="charts">
 
-      <!-- BTC -->
-      <div class="upload-box">
+    <!-- USDT -->
+    <div class="chart-box">
 
-        <div class="upload-title">
-          BTC
-        </div>
-
-        <input
-          type="file"
-          id="btcInput"
-          accept="image/*"
-        >
-
-        <img
-          id="btcPreview"
-          class="preview"
-        >
-
+      <div class="chart-title">
+        💵 چارت / وضعیت USDT
       </div>
 
+      <input
+        type="file"
+        id="usdtInput"
+        accept="image/*"
+      >
 
-      <!-- USDT -->
-      <div class="upload-box">
+      <img
+        id="usdtPreview"
+        class="preview"
+        alt="USDT Chart"
+      >
 
-        <div class="upload-title">
-          USDT
-        </div>
-
-        <input
-          type="file"
-          id="usdtInput"
-          accept="image/*"
-        >
-
-        <img
-          id="usdtPreview"
-          class="preview"
-        >
-
+      <div
+        id="usdtStatus"
+        class="status"
+      >
+        هنوز چارت USDT دریافت نشده
       </div>
 
+    </div>
 
-      <!-- MARKET CAP -->
-      <div class="upload-box">
 
-        <div class="upload-title">
-          Market Cap
-        </div>
+    <!-- Market Cap -->
+    <div class="chart-box">
 
-        <input
-          type="file"
-          id="marketInput"
-          accept="image/*"
-        >
-
-        <img
-          id="marketPreview"
-          class="preview"
-        >
-
+      <div class="chart-title">
+        🌐 Market Cap
       </div>
 
+      <input
+        type="file"
+        id="marketInput"
+        accept="image/*"
+      >
 
-      <!-- TARGET -->
-      <div class="upload-box">
+      <img
+        id="marketPreview"
+        class="preview"
+        alt="Market Cap Chart"
+      >
 
-        <div class="upload-title">
-          ارز هدف
-        </div>
+      <div
+        id="marketStatus"
+        class="status"
+      >
+        هنوز Market Cap دریافت نشده
+      </div>
 
-        <input
-          type="file"
-          id="targetInput"
-          accept="image/*"
-        >
+    </div>
 
-        <img
-          id="targetPreview"
-          class="preview"
-        >
 
+    <!-- Target -->
+    <div class="chart-box">
+
+      <div class="chart-title">
+        🎯 چارت ارز هدف
+      </div>
+
+      <input
+        type="file"
+        id="targetInput"
+        accept="image/*"
+      >
+
+      <img
+        id="targetPreview"
+        class="preview"
+        alt="Target Coin Chart"
+      >
+
+      <div
+        id="targetStatus"
+        class="status"
+      >
+        هنوز چارت ارز هدف دریافت نشده
       </div>
 
     </div>
@@ -293,112 +336,99 @@
   </div>
 
 
-  <!-- ANALYSIS -->
+  <!-- دکمه تحلیل -->
+
   <div class="card">
 
     <button
-      class="analyze-btn"
+      id="analyzeButton"
       onclick="startAnalysis()"
     >
       🔍 شروع تحلیل
     </button>
 
     <div
-      id="status"
-      class="status"
+      id="loading"
+      class="loading"
     >
-      آماده دریافت چارت‌ها
+      ⏳ در حال آماده‌سازی تحلیل...
     </div>
 
   </div>
 
 
-  <!-- RESULT -->
-  <div
-    id="result"
-    class="card result"
-  >
+  <!-- نتیجه -->
 
-    <div class="card-title">
-      📈 نتیجه تحلیل
+  <div class="card">
+
+    <h2>🧠 نتیجه Market Direction</h2>
+
+    <div class="result-box">
+
+      <div class="result-row">
+        <span class="label">BTC</span>
+        <span
+          id="btcResult"
+          class="value"
+        >
+          —
+        </span>
+      </div>
+
+      <div class="result-row">
+        <span class="label">USDT</span>
+        <span
+          id="usdtResult"
+          class="value"
+        >
+          —
+        </span>
+      </div>
+
+      <div class="result-row">
+        <span class="label">Market Cap</span>
+        <span
+          id="marketResult"
+          class="value"
+        >
+          —
+        </span>
+      </div>
+
+      <div class="result-row">
+        <span class="label">Target Coin</span>
+        <span
+          id="targetResult"
+          class="value"
+        >
+          —
+        </span>
+      </div>
+
     </div>
 
 
-    <div class="row">
-      <span>BTC</span>
+    <div class="main-decision">
 
-      <span
-        id="btcResult"
-        class="row-value"
-      >
-        نامشخص
-      </span>
-    </div>
-
-
-    <div class="row">
-      <span>USDT</span>
-
-      <span
-        id="usdtResult"
-        class="row-value"
-      >
-        نامشخص
-      </span>
-    </div>
-
-
-    <div class="row">
-      <span>Market Cap</span>
-
-      <span
-        id="marketResult"
-        class="row-value"
-      >
-        نامشخص
-      </span>
-    </div>
-
-
-    <div class="row">
-      <span>ارز هدف</span>
-
-      <span
-        id="targetResult"
-        class="row-value"
-      >
-        نامشخص
-      </span>
-    </div>
-
-
-    <div class="decision">
-
-      <div class="decision-label">
+      <div class="decision-title">
         وضعیت فعلی
       </div>
 
       <div
         id="decisionValue"
-        class="decision-value"
+        class="decision"
       >
         WAIT
       </div>
 
     </div>
 
-
-    <div class="warning">
-      ⚠️ این نسخه هنوز موتور تحلیل واقعی ندارد.
-      فعلاً فقط ساختار برنامه و دریافت چارت‌ها را آزمایش می‌کنیم.
-      تصمیم نهایی معامله همیشه با معامله‌گر است.
+    <div class="small">
+      V0.1 فقط آماده‌سازی ارتباط با موتور تحلیل است.
+      در مرحله بعد، تصویر چارت به Backend ارسال می‌شود
+      و تحلیل AI به این بخش برمی‌گردد.
     </div>
 
-  </div>
-
-
-  <div class="footer">
-    Market Direction Assistant · V0 · Analysis Only
   </div>
 
 </div>
@@ -406,93 +436,227 @@
 
 <script>
 
-function setupPreview(inputId, previewId) {
-
-  const input = document.getElementById(inputId);
-  const preview = document.getElementById(previewId);
-
-  input.addEventListener("change", function () {
-
-    const file = this.files[0];
-
-    if (!file) {
-      preview.style.display = "none";
-      return;
-    }
-
-    const url = URL.createObjectURL(file);
-
-    preview.src = url;
-    preview.style.display = "block";
-
-  });
-
-}
-
-
-setupPreview("btcInput", "btcPreview");
-
-setupPreview("usdtInput", "usdtPreview");
-
-setupPreview("marketInput", "marketPreview");
-
-setupPreview("targetInput", "targetPreview");
+  /*
+   * ==========================================
+   * Market Direction V0.1
+   * ==========================================
+   *
+   * فعلاً Backend نداریم.
+   *
+   * این نسخه فقط:
+   * 1. تصویر را دریافت می‌کند
+   * 2. پیش‌نمایش نشان می‌دهد
+   * 3. وضعیت فایل را مشخص می‌کند
+   *
+   * مرحله بعد:
+   *
+   * HTML
+   *   ↓
+   * POST /api/analyze
+   *   ↓
+   * Backend
+   *   ↓
+   * AI Vision
+   *
+   */
 
 
-function startAnalysis() {
+  function setupImageInput(
+    inputId,
+    previewId,
+    statusId
+  ) {
 
-  const btc =
-    document.getElementById("btcInput").files[0];
+    const input =
+      document.getElementById(inputId);
 
-  const usdt =
-    document.getElementById("usdtInput").files[0];
+    const preview =
+      document.getElementById(previewId);
 
-  const market =
-    document.getElementById("marketInput").files[0];
-
-  const target =
-    document.getElementById("targetInput").files[0];
+    const status =
+      document.getElementById(statusId);
 
 
-  if (!btc && !usdt && !market && !target) {
+    input.addEventListener(
+      "change",
+      function () {
 
-    document.getElementById("status").textContent =
-      "⚠️ حداقل یک چارت انتخاب کن.";
+        const file = this.files[0];
 
-    return;
+        if (!file) {
+
+          preview.style.display = "none";
+
+          status.innerText =
+            "فایلی انتخاب نشده";
+
+          status.className =
+            "status";
+
+          return;
+        }
+
+
+        /*
+         * ساخت URL موقت برای نمایش تصویر
+         */
+
+        const imageURL =
+          URL.createObjectURL(file);
+
+
+        preview.src = imageURL;
+
+        preview.style.display =
+          "block";
+
+
+        status.innerText =
+          "✓ چارت دریافت شد";
+
+        status.className =
+          "status received";
+
+      }
+    );
+
   }
 
 
-  document.getElementById("status").textContent =
-    "⏳ چارت‌ها دریافت شدند؛ آماده تحلیل...";
+  /*
+   * فعال کردن چهار ورودی
+   */
 
+  setupImageInput(
+    "btcInput",
+    "btcPreview",
+    "btcStatus"
+  );
 
-  document.getElementById("result").style.display =
-    "block";
+  setupImageInput(
+    "usdtInput",
+    "usdtPreview",
+    "usdtStatus"
+  );
 
+  setupImageInput(
+    "marketInput",
+    "marketPreview",
+    "marketStatus"
+  );
 
-  document.getElementById("btcResult").textContent =
-    btc ? "دریافت شد" : "نداریم";
-
-  document.getElementById("usdtResult").textContent =
-    usdt ? "دریافت شد" : "نداریم";
-
-  document.getElementById("marketResult").textContent =
-    market ? "دریافت شد" : "نداریم";
-
-  document.getElementById("targetResult").textContent =
-    target ? "دریافت شد" : "نداریم";
+  setupImageInput(
+    "targetInput",
+    "targetPreview",
+    "targetStatus"
+  );
 
 
   /*
-    فعلاً تحلیل واقعی نداریم.
-    در مرحله بعد این قسمت به موتور تحلیل وصل می‌شود.
-  */
+   * ==========================================
+   * شروع تحلیل
+   * ==========================================
+   */
 
-  document.getElementById("decisionValue").textContent =
-    "WAIT";
+  async function startAnalysis() {
 
-}
+    const targetInput =
+      document.getElementById("targetInput");
+
+    const targetFile =
+      targetInput.files[0];
+
+
+    /*
+     * فعلاً فقط Target را بررسی می‌کنیم.
+     */
+
+    if (!targetFile) {
+
+      alert(
+        "اول چارت ارز هدف را انتخاب کن."
+      );
+
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "analyzeButton"
+      );
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    button.disabled = true;
+
+    loading.style.display =
+      "block";
+
+
+    /*
+     * فعلاً شبیه‌سازی اتصال Backend
+     */
+
+    setTimeout(
+      function () {
+
+        document.getElementById(
+          "btcResult"
+        ).innerText =
+          document.getElementById(
+            "btcInput"
+          ).files.length
+            ? "دریافت شد"
+            : "ناموجود";
+
+
+        document.getElementById(
+          "usdtResult"
+        ).innerText =
+          document.getElementById(
+            "usdtInput"
+          ).files.length
+            ? "دریافت شد"
+            : "ناموجود";
+
+
+        document.getElementById(
+          "marketResult"
+        ).innerText =
+          document.getElementById(
+            "marketInput"
+          ).files.length
+            ? "دریافت شد"
+            : "ناموجود";
+
+
+        document.getElementById(
+          "targetResult"
+        ).innerText =
+          "آماده تحلیل AI";
+
+
+        document.getElementById(
+          "decisionValue"
+        ).innerText =
+          "WAIT";
+
+
+        loading.style.display =
+          "none";
+
+        button.disabled = false;
+
+      },
+      1000
+    );
+
+  }
 
 </script>
 
