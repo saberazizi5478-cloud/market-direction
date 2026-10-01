@@ -1,406 +1,180 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0,
-             maximum-scale=1.0, user-scalable=no"
-  />
-
-  <title>Market Direction V4</title>
-
-  <!-- Lightweight Charts 5.x -->
-  <script src="https://unpkg.com/lightweight-charts@5.2.0/dist/lightweight-charts.standalone.production.js"></script>
+  <title>Market Direction Assistant V0</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
-    html,
     body {
       margin: 0;
-      padding: 0;
-      background: #080b10;
-      color: #e8edf5;
+      background: #0b0f14;
+      color: #f5f5f5;
       font-family: Tahoma, Arial, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
     }
 
     .container {
       width: 100%;
-      max-width: 1250px;
+      max-width: 900px;
       margin: auto;
-      padding: 14px;
+      padding: 16px;
     }
 
     .header {
-      background: #10151d;
-      border: 1px solid #202936;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+      background: #121820;
+      border: 1px solid #26303b;
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 16px;
     }
 
     .title {
-      font-size: 23px;
+      font-size: 24px;
       font-weight: bold;
     }
 
     .subtitle {
-      color: #8d98a8;
-      margin-top: 6px;
+      margin-top: 8px;
+      color: #8995a3;
       font-size: 13px;
+    }
+
+    .card {
+      background: #121820;
+      border: 1px solid #26303b;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .upload-box {
+      background: #0d131a;
+      border: 1px dashed #45515f;
+      border-radius: 14px;
+      padding: 15px;
+    }
+
+    .upload-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: #aeb8c4;
+      font-size: 12px;
+    }
+
+    .preview {
+      display: none;
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      margin-top: 12px;
+      border-radius: 10px;
+      background: #080c10;
+    }
+
+    .analyze-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 16px;
+      background: #d4a72c;
+      color: #111;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .analyze-btn:active {
+      transform: scale(0.98);
     }
 
     .status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 12px;
-      color: #9ba6b5;
-    }
-
-    .status-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #777;
-    }
-
-    .status-dot.online {
-      background: #20c997;
-    }
-
-    .status-dot.error {
-      background: #ff5c5c;
-    }
-
-    .controls {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 3px;
-      margin-bottom: 12px;
-    }
-
-    button {
-      border: 1px solid #27303d;
-      background: #121821;
-      color: #cbd3df;
-      border-radius: 10px;
-      padding: 10px 16px;
-      cursor: pointer;
-      white-space: nowrap;
-      font-size: 13px;
-    }
-
-    button:hover {
-      background: #19212c;
-    }
-
-    button.active {
-      background: #eab308;
-      color: #111;
-      border-color: #eab308;
-      font-weight: bold;
-    }
-
-    .market-card {
-      background: #10151d;
-      border: 1px solid #202936;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .market-main {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .symbol {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .price {
-      font-size: 24px;
-      font-weight: bold;
-      margin-top: 5px;
-    }
-
-    .price-change {
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    .positive {
-      color: #22c55e;
-    }
-
-    .negative {
-      color: #ef4444;
-    }
-
-    .neutral {
-      color: #aab3c0;
-    }
-
-    .chart-card {
-      background: #0e131a;
-      border: 1px solid #202936;
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .chart-header {
-      padding: 12px 14px;
-      border-bottom: 1px solid #202936;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .chart-title {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .chart-info {
-      color: #8d98a8;
-      font-size: 11px;
-    }
-
-    #chart {
-      width: 100%;
-      height: 470px;
-    }
-
-    .summary {
-      background: #10151d;
-      border: 1px solid #202936;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .summary-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .direction-box {
-      border: 1px solid #27303d;
-      background: #0d1218;
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .direction {
-      font-size: 38px;
-      font-weight: bold;
-      margin: 5px 0;
-    }
-
-    .direction-text {
-      font-size: 14px;
-      color: #9ca7b5;
-    }
-
-    .score {
-      font-size: 25px;
-      font-weight: bold;
-    }
-
-    .tf-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-    }
-
-    .tf-card {
-      background: #0d1218;
-      border: 1px solid #27303d;
-      border-radius: 12px;
-      padding: 11px;
-      text-align: center;
-    }
-
-    .tf-name {
-      color: #9ba6b5;
-      font-size: 12px;
-    }
-
-    .tf-direction {
-      font-size: 26px;
-      margin: 5px 0;
-      font-weight: bold;
-    }
-
-    .tf-score {
-      font-size: 12px;
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
       margin-top: 12px;
-    }
-
-    .metric {
-      background: #0d1218;
-      border: 1px solid #27303d;
+      background: #0d131a;
       border-radius: 12px;
-      padding: 12px;
-    }
-
-    .metric-label {
-      color: #8994a3;
-      font-size: 11px;
-      margin-bottom: 6px;
-    }
-
-    .metric-value {
-      font-size: 15px;
-      font-weight: bold;
-    }
-
-    .zones {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .zone {
-      background: #0d1218;
-      border: 1px solid #27303d;
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    .zone-title {
-      color: #8994a3;
-      font-size: 11px;
-      margin-bottom: 7px;
-    }
-
-    .zone-value {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .data-table-wrap {
-      overflow-x: auto;
-      margin-top: 12px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
-      font-size: 12px;
-    }
-
-    th,
-    td {
-      border-bottom: 1px solid #202936;
-      padding: 8px;
-      text-align: right;
-    }
-
-    th {
-      color: #8994a3;
-      font-weight: normal;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 35px;
-      color: #8d98a8;
-    }
-
-    .error-box {
-      background: #2a1417;
-      border: 1px solid #5b2429;
-      color: #ff9ca3;
       padding: 13px;
-      border-radius: 12px;
-      margin-bottom: 12px;
+      color: #aeb8c4;
+      text-align: center;
+    }
+
+    .result {
       display: none;
-      line-height: 1.8;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d131a;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 8px;
+    }
+
+    .row-value {
+      font-weight: bold;
+    }
+
+    .decision {
+      text-align: center;
+      background: #0d131a;
+      border-radius: 15px;
+      padding: 22px;
+      margin-top: 15px;
+    }
+
+    .decision-label {
+      color: #8995a3;
       font-size: 13px;
+    }
+
+    .decision-value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .warning {
+      color: #aeb8c4;
+      font-size: 12px;
+      line-height: 1.9;
+      margin-top: 15px;
     }
 
     .footer {
       text-align: center;
-      color: #596575;
+      color: #596572;
       font-size: 11px;
-      padding: 14px;
+      padding: 15px;
     }
 
-    @media (max-width: 800px) {
-      #chart {
-        height: 390px;
-      }
-
-      .tf-grid {
-        grid-template-columns: repeat(5, minmax(100px, 1fr));
-        overflow-x: auto;
-      }
-
-      .metrics {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .zones {
+    @media (max-width: 600px) {
+      .charts {
         grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        padding: 8px;
       }
 
       .title {
-        font-size: 19px;
-      }
-
-      .price {
         font-size: 21px;
-      }
-
-      #chart {
-        height: 360px;
-      }
-
-      .metrics {
-        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -410,1684 +184,315 @@
 
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
-    <div class="header-top">
-      <div>
-        <div class="title">Market Direction V4</div>
-        <div class="subtitle">
-          تحلیل چندتایم‌فریمی BTCUSDT با داده واقعی بازار
-        </div>
-      </div>
+    <div class="title">
+      Market Direction Assistant
+    </div>
 
-      <div class="status">
-        <span id="statusDot" class="status-dot"></span>
-        <span id="statusText">در حال اتصال...</span>
-      </div>
+    <div class="subtitle">
+      تحلیلگر کنار دست معامله‌گر · V0
     </div>
   </div>
 
-  <div id="errorBox" class="error-box"></div>
 
-  <div class="controls">
-    <button data-tf="1h" class="active">1H</button>
-    <button data-tf="4h">4H</button>
-    <button data-tf="1d">1D</button>
-    <button data-tf="1w">1W</button>
-    <button data-tf="1M">1M</button>
-  </div>
+  <!-- CHART UPLOAD -->
+  <div class="card">
 
-  <div class="market-card">
-
-    <div class="market-main">
-
-      <div>
-        <div class="symbol">BTC / USDT</div>
-        <div id="price" class="price">---</div>
-        <div id="change" class="price-change neutral">
-          در حال دریافت اطلاعات...
-        </div>
-      </div>
-
-      <div>
-        <div class="subtitle">تعداد کندل تحلیلی</div>
-        <div id="candleCount" class="price">---</div>
-      </div>
-
+    <div class="card-title">
+      📊 چارت‌های بازار
     </div>
 
-  </div>
+    <div class="charts">
 
-  <div class="chart-card">
+      <!-- BTC -->
+      <div class="upload-box">
 
-    <div class="chart-header">
+        <div class="upload-title">
+          BTC
+        </div>
 
-      <div class="chart-title">
-        نمودار واقعی BTCUSDT
+        <input
+          type="file"
+          id="btcInput"
+          accept="image/*"
+        >
+
+        <img
+          id="btcPreview"
+          class="preview"
+        >
+
       </div>
 
-      <div id="chartInfo" class="chart-info">
-        Binance · ---
+
+      <!-- USDT -->
+      <div class="upload-box">
+
+        <div class="upload-title">
+          USDT
+        </div>
+
+        <input
+          type="file"
+          id="usdtInput"
+          accept="image/*"
+        >
+
+        <img
+          id="usdtPreview"
+          class="preview"
+        >
+
       </div>
 
-    </div>
 
-    <div id="chart"></div>
+      <!-- MARKET CAP -->
+      <div class="upload-box">
 
-  </div>
+        <div class="upload-title">
+          Market Cap
+        </div>
 
-  <div class="summary">
+        <input
+          type="file"
+          id="marketInput"
+          accept="image/*"
+        >
 
-    <div class="summary-title">
-      Market Direction
-    </div>
+        <img
+          id="marketPreview"
+          class="preview"
+        >
 
-    <div class="direction-box">
-
-      <div id="mainDirection" class="direction neutral">
-        →
       </div>
 
-      <div id="directionText" class="direction-text">
-        در حال تحلیل...
-      </div>
 
-      <div id="mainScore" class="score neutral">
-        ---
-      </div>
+      <!-- TARGET -->
+      <div class="upload-box">
 
-    </div>
+        <div class="upload-title">
+          ارز هدف
+        </div>
 
-    <div id="tfGrid" class="tf-grid">
-      <div class="loading">در حال تحلیل تایم‌فریم‌ها...</div>
-    </div>
+        <input
+          type="file"
+          id="targetInput"
+          accept="image/*"
+        >
 
-    <div class="metrics">
+        <img
+          id="targetPreview"
+          class="preview"
+        >
 
-      <div class="metric">
-        <div class="metric-label">
-          Change
-        </div>
-        <div id="metricChange" class="metric-value">
-          ---
-        </div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">
-          Slope
-        </div>
-        <div id="metricSlope" class="metric-value">
-          ---
-        </div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">
-          Consistency
-        </div>
-        <div id="metricConsistency" class="metric-value">
-          ---
-        </div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">
-          Trend Score
-        </div>
-        <div id="metricTrend" class="metric-value">
-          ---
-        </div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">
-          Momentum
-        </div>
-        <div id="metricMomentum" class="metric-value">
-          ---
-        </div>
-      </div>
-
-      <div class="metric">
-        <div class="metric-label">
-          Volume
-        </div>
-        <div id="metricVolume" class="metric-value">
-          ---
-        </div>
-      </div>
-
-    </div>
-
-    <div class="zones">
-
-      <div class="zone">
-        <div class="zone-title">
-          Support Zone
-        </div>
-        <div id="supportZone" class="zone-value">
-          ---
-        </div>
-      </div>
-
-      <div class="zone">
-        <div class="zone-title">
-          Resistance Zone
-        </div>
-        <div id="resistanceZone" class="zone-value">
-          ---
-        </div>
       </div>
 
     </div>
 
   </div>
 
-  <div class="summary">
 
-    <div class="summary-title">
-      آخرین کندل‌ها
-    </div>
+  <!-- ANALYSIS -->
+  <div class="card">
 
-    <div class="data-table-wrap">
+    <button
+      class="analyze-btn"
+      onclick="startAnalysis()"
+    >
+      🔍 شروع تحلیل
+    </button>
 
-      <table>
-
-        <thead>
-          <tr>
-            <th>زمان</th>
-            <th>Open</th>
-            <th>High</th>
-            <th>Low</th>
-            <th>Close</th>
-            <th>Volume</th>
-          </tr>
-        </thead>
-
-        <tbody id="candleTable">
-        </tbody>
-
-      </table>
-
+    <div
+      id="status"
+      class="status"
+    >
+      آماده دریافت چارت‌ها
     </div>
 
   </div>
+
+
+  <!-- RESULT -->
+  <div
+    id="result"
+    class="card result"
+  >
+
+    <div class="card-title">
+      📈 نتیجه تحلیل
+    </div>
+
+
+    <div class="row">
+      <span>BTC</span>
+
+      <span
+        id="btcResult"
+        class="row-value"
+      >
+        نامشخص
+      </span>
+    </div>
+
+
+    <div class="row">
+      <span>USDT</span>
+
+      <span
+        id="usdtResult"
+        class="row-value"
+      >
+        نامشخص
+      </span>
+    </div>
+
+
+    <div class="row">
+      <span>Market Cap</span>
+
+      <span
+        id="marketResult"
+        class="row-value"
+      >
+        نامشخص
+      </span>
+    </div>
+
+
+    <div class="row">
+      <span>ارز هدف</span>
+
+      <span
+        id="targetResult"
+        class="row-value"
+      >
+        نامشخص
+      </span>
+    </div>
+
+
+    <div class="decision">
+
+      <div class="decision-label">
+        وضعیت فعلی
+      </div>
+
+      <div
+        id="decisionValue"
+        class="decision-value"
+      >
+        WAIT
+      </div>
+
+    </div>
+
+
+    <div class="warning">
+      ⚠️ این نسخه هنوز موتور تحلیل واقعی ندارد.
+      فعلاً فقط ساختار برنامه و دریافت چارت‌ها را آزمایش می‌کنیم.
+      تصمیم نهایی معامله همیشه با معامله‌گر است.
+    </div>
+
+  </div>
+
 
   <div class="footer">
-    Market Direction · Real Market Data · Analysis Only
+    Market Direction Assistant · V0 · Analysis Only
   </div>
 
 </div>
 
+
 <script>
 
-  /*
-   * =========================================================
-   * CONFIG
-   * =========================================================
-   */
+function setupPreview(inputId, previewId) {
 
-  const SYMBOL = "BTCUSDT";
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
 
-  const API_BASE = "https://api.binance.com";
+  input.addEventListener("change", function () {
 
-  const TIMEFRAMES = {
-    "1h": {
-      label: "1H",
-      interval: "1h",
-      limit: 300
-    },
+    const file = this.files[0];
 
-    "4h": {
-      label: "4H",
-      interval: "4h",
-      limit: 300
-    },
-
-    "1d": {
-      label: "1D",
-      interval: "1d",
-      limit: 200
-    },
-
-    "1w": {
-      label: "1W",
-      interval: "1w",
-      limit: 100
-    },
-
-    "1M": {
-      label: "1M",
-      interval: "1M",
-      limit: 60
-    }
-  };
-
-  const SHORT_WINDOW = 21;
-  const MEDIUM_WINDOW = 50;
-  const LONG_WINDOW = 100;
-
-  const REFRESH_MS = 60 * 1000;
-
-  let activeTimeframe = "1h";
-
-  let allData = {};
-
-  let chart = null;
-  let candleSeries = null;
-  let volumeSeries = null;
-
-  /*
-   * =========================================================
-   * DOM
-   * =========================================================
-   */
-
-  const $ = (id) => document.getElementById(id);
-
-  /*
-   * =========================================================
-   * HELPERS
-   * =========================================================
-   */
-
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function average(arr) {
-
-    if (!arr.length) return 0;
-
-    return arr.reduce((a, b) => a + b, 0) / arr.length;
-  }
-
-  function formatPrice(value) {
-
-    if (!Number.isFinite(value)) {
-      return "---";
-    }
-
-    if (value >= 1000) {
-      return value.toLocaleString("en-US", {
-        maximumFractionDigits: 2
-      });
-    }
-
-    return value.toLocaleString("en-US", {
-      maximumFractionDigits: 6
-    });
-  }
-
-  function formatVolume(value) {
-
-    if (!Number.isFinite(value)) {
-      return "---";
-    }
-
-    if (value >= 1000000) {
-      return (
-        (value / 1000000).toFixed(2) +
-        "M"
-      );
-    }
-
-    if (value >= 1000) {
-      return (
-        (value / 1000).toFixed(2) +
-        "K"
-      );
-    }
-
-    return value.toFixed(2);
-  }
-
-  function formatPercent(value) {
-
-    if (!Number.isFinite(value)) {
-      return "---";
-    }
-
-    return (
-      (value >= 0 ? "+" : "") +
-      value.toFixed(2) +
-      "%"
-    );
-  }
-
-  function directionFromScore(score) {
-
-    if (score >= 20) {
-      return {
-        symbol: "↑",
-        text: "صعودی",
-        className: "positive"
-      };
-    }
-
-    if (score <= -20) {
-      return {
-        symbol: "↓",
-        text: "نزولی",
-        className: "negative"
-      };
-    }
-
-    return {
-      symbol: "→",
-      text: "خنثی / نامشخص",
-      className: "neutral"
-    };
-  }
-
-  function setStatus(text, type) {
-
-    $("statusText").textContent = text;
-
-    $("statusDot").className =
-      "status-dot " +
-      (type || "");
-  }
-
-  function showError(message) {
-
-    $("errorBox").style.display = "block";
-
-    $("errorBox").textContent = message;
-
-    setStatus("خطا در دریافت داده", "error");
-  }
-
-  function hideError() {
-
-    $("errorBox").style.display = "none";
-  }
-
-  /*
-   * =========================================================
-   * BINANCE
-   * =========================================================
-   */
-
-  async function fetchKlines(interval, limit) {
-
-    const url =
-      API_BASE +
-      "/api/v3/klines" +
-      "?symbol=" +
-      SYMBOL +
-      "&interval=" +
-      interval +
-      "&limit=" +
-      limit;
-
-    const response = await fetch(url, {
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Binance HTTP " +
-        response.status
-      );
-    }
-
-    const raw = await response.json();
-
-    return raw.map(k => ({
-
-      time: Math.floor(k[0] / 1000),
-
-      open: Number(k[1]),
-
-      high: Number(k[2]),
-
-      low: Number(k[3]),
-
-      close: Number(k[4]),
-
-      volume: Number(k[5]),
-
-      closeTime: Number(k[6]),
-
-      trades: Number(k[8]),
-
-      takerBuyVolume: Number(k[9])
-
-    }));
-  }
-
-  async function fetchTicker() {
-
-    const url =
-      API_BASE +
-      "/api/v3/ticker/24hr" +
-      "?symbol=" +
-      SYMBOL;
-
-    const response = await fetch(url, {
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Ticker HTTP " +
-        response.status
-      );
-    }
-
-    return await response.json();
-  }
-
-  /*
-   * =========================================================
-   * ANALYSIS
-   * =========================================================
-   */
-
-  function calculateChange(candles) {
-
-    if (candles.length < 2) {
-      return 0;
-    }
-
-    const first =
-      candles[0].close;
-
-    const last =
-      candles[candles.length - 1].close;
-
-    return ((last - first) / first) * 100;
-  }
-
-  function calculateSlope(candles) {
-
-    if (candles.length < 2) {
-      return 0;
-    }
-
-    const closes =
-      candles.map(c => c.close);
-
-    const n = closes.length;
-
-    const xMean =
-      (n - 1) / 2;
-
-    const yMean =
-      average(closes);
-
-    let numerator = 0;
-    let denominator = 0;
-
-    for (let i = 0; i < n; i++) {
-
-      const dx =
-        i - xMean;
-
-      const dy =
-        closes[i] - yMean;
-
-      numerator +=
-        dx * dy;
-
-      denominator +=
-        dx * dx;
-    }
-
-    if (denominator === 0) {
-      return 0;
-    }
-
-    const slope =
-      numerator / denominator;
-
-    return (
-      slope /
-      yMean
-    ) * 100;
-  }
-
-  function calculateConsistency(candles) {
-
-    if (candles.length < 2) {
-      return 0;
-    }
-
-    let up = 0;
-    let down = 0;
-
-    for (let i = 1; i < candles.length; i++) {
-
-      if (
-        candles[i].close >
-        candles[i - 1].close
-      ) {
-        up++;
-      }
-
-      else if (
-        candles[i].close <
-        candles[i - 1].close
-      ) {
-        down++;
-      }
-    }
-
-    const total =
-      up + down;
-
-    if (!total) {
-      return 0;
-    }
-
-    return (
-      ((up - down) / total) *
-      100
-    );
-  }
-
-  function calculateMomentum(candles) {
-
-    if (candles.length < 10) {
-      return 0;
-    }
-
-    const recent =
-      candles.slice(-10);
-
-    const old =
-      candles.slice(-20, -10);
-
-    if (!old.length) {
-      return 0;
-    }
-
-    const recentAvg =
-      average(
-        recent.map(c => c.close)
-      );
-
-    const oldAvg =
-      average(
-        old.map(c => c.close)
-      );
-
-    return (
-      ((recentAvg - oldAvg) /
-        oldAvg) *
-      100
-    );
-  }
-
-  function calculateVolumeScore(candles) {
-
-    if (candles.length < 20) {
-      return 0;
-    }
-
-    const recent =
-      candles.slice(-5);
-
-    const previous =
-      candles.slice(-20, -5);
-
-    const recentVolume =
-      average(
-        recent.map(c => c.volume)
-      );
-
-    const previousVolume =
-      average(
-        previous.map(c => c.volume)
-      );
-
-    if (!previousVolume) {
-      return 0;
-    }
-
-    const ratio =
-      recentVolume /
-      previousVolume;
-
-    const priceChange =
-      calculateChange(recent);
-
-    let score = 0;
-
-    if (ratio > 1.1) {
-
-      score =
-        priceChange >= 0
-          ? 12
-          : -12;
-
-    } else if (ratio < 0.9) {
-
-      score =
-        priceChange >= 0
-          ? 4
-          : -4;
-
-    }
-
-    return clamp(
-      score,
-      -15,
-      15
-    );
-  }
-
-  /*
-   * =========================================================
-   * SUPPORT / RESISTANCE ZONES
-   * =========================================================
-   */
-
-  function findZones(candles) {
-
-    if (!candles.length) {
-
-      return {
-        support: null,
-        resistance: null
-      };
-    }
-
-    const recent =
-      candles.slice(-Math.min(100, candles.length));
-
-    const lows =
-      recent.map(c => c.low);
-
-    const highs =
-      recent.map(c => c.high);
-
-    const current =
-      recent[recent.length - 1].close;
-
-    const below =
-      lows
-        .filter(v => v < current)
-        .sort((a, b) => b - a);
-
-    const above =
-      highs
-        .filter(v => v > current)
-        .sort((a, b) => a - b);
-
-    let support =
-      below.length
-        ? below.slice(0, Math.min(8, below.length))
-        : [Math.min(...lows)];
-
-    let resistance =
-      above.length
-        ? above.slice(0, Math.min(8, above.length))
-        : [Math.max(...highs)];
-
-    const supportMin =
-      Math.min(...support);
-
-    const supportMax =
-      Math.max(...support);
-
-    const resistanceMin =
-      Math.min(...resistance);
-
-    const resistanceMax =
-      Math.max(...resistance);
-
-    return {
-
-      support: {
-        low: supportMin,
-        high: supportMax
-      },
-
-      resistance: {
-        low: resistanceMin,
-        high: resistanceMax
-      }
-
-    };
-  }
-
-  /*
-   * =========================================================
-   * TREND SCORE
-   * =========================================================
-   */
-
-  function calculateTrendScore(candles) {
-
-    if (!candles.length) {
-
-      return {
-        score: 0,
-        change: 0,
-        slope: 0,
-        consistency: 0,
-        momentum: 0,
-        volume: 0
-      };
-    }
-
-    const last21 =
-      candles.slice(-SHORT_WINDOW);
-
-    const last50 =
-      candles.slice(-MEDIUM_WINDOW);
-
-    const last100 =
-      candles.slice(-LONG_WINDOW);
-
-    const change21 =
-      calculateChange(last21);
-
-    const change50 =
-      calculateChange(last50);
-
-    const change100 =
-      calculateChange(last100);
-
-    const slope21 =
-      calculateSlope(last21);
-
-    const consistency21 =
-      calculateConsistency(last21);
-
-    const momentum =
-      calculateMomentum(last21);
-
-    const volume =
-      calculateVolumeScore(last21);
-
-    /*
-     * نرمال‌سازی
-     */
-
-    const shortScore =
-      clamp(
-        change21 * 3,
-        -30,
-        30
-      );
-
-    const mediumScore =
-      clamp(
-        change50 * 1.5,
-        -20,
-        20
-      );
-
-    const longScore =
-      clamp(
-        change100 * 0.8,
-        -15,
-        15
-      );
-
-    const slopeScore =
-      clamp(
-        slope21 * 4,
-        -15,
-        15
-      );
-
-    const consistencyScore =
-      clamp(
-        consistency21 * 0.15,
-        -15,
-        15
-      );
-
-    const momentumScore =
-      clamp(
-        momentum * 2,
-        -12,
-        12
-      );
-
-    const score =
-      shortScore +
-      mediumScore +
-      longScore +
-      slopeScore +
-      consistencyScore +
-      momentumScore +
-      volume;
-
-    return {
-
-      score: clamp(
-        score,
-        -100,
-        100
-      ),
-
-      change: change21,
-
-      slope: slope21,
-
-      consistency: consistency21,
-
-      momentum,
-
-      volume
-
-    };
-  }
-
-  /*
-   * =========================================================
-   * MULTI TIMEFRAME
-   * =========================================================
-   */
-
-  function calculateMultiTimeframe() {
-
-    const results = [];
-
-    for (const tf of Object.keys(TIMEFRAMES)) {
-
-      const candles =
-        allData[tf];
-
-      if (
-        !candles ||
-        candles.length < 21
-      ) {
-        continue;
-      }
-
-      const analysis =
-        calculateTrendScore(candles);
-
-      const direction =
-        directionFromScore(
-          analysis.score
-        );
-
-      results.push({
-
-        tf,
-
-        label:
-          TIMEFRAMES[tf].label,
-
-        score:
-          analysis.score,
-
-        direction
-
-      });
-    }
-
-    return results;
-  }
-
-  /*
-   * =========================================================
-   * CHART
-   * =========================================================
-   */
-
-  function createChart() {
-
-    if (chart) {
-
-      try {
-        chart.remove();
-      } catch (e) {}
-
-      chart = null;
-      candleSeries = null;
-      volumeSeries = null;
-    }
-
-    const container =
-      $("chart");
-
-    chart =
-      LightweightCharts.createChart(
-        container,
-        {
-
-          layout: {
-
-            background: {
-              type: "solid",
-              color: "#0e131a"
-            },
-
-            textColor: "#9ba6b5"
-
-          },
-
-          grid: {
-
-            vertLines: {
-              color: "#1c2430"
-            },
-
-            horzLines: {
-              color: "#1c2430"
-            }
-
-          },
-
-          rightPriceScale: {
-
-            borderColor: "#27303d",
-
-            scaleMargins: {
-              top: 0.08,
-              bottom: 0.25
-            }
-
-          },
-
-          timeScale: {
-
-            borderColor: "#27303d",
-
-            timeVisible: true,
-
-            secondsVisible: false,
-
-            rightOffset: 3,
-
-            barSpacing: 12,
-
-            minBarSpacing: 4
-
-          },
-
-          crosshair: {
-
-            mode:
-              LightweightCharts.CrosshairMode.Normal
-
-          }
-
-        }
-      );
-
-    candleSeries =
-      chart.addSeries(
-        LightweightCharts.CandlestickSeries,
-        {
-
-          upColor: "#22c55e",
-
-          downColor: "#ef4444",
-
-          borderUpColor: "#22c55e",
-
-          borderDownColor: "#ef4444",
-
-          wickUpColor: "#22c55e",
-
-          wickDownColor: "#ef4444"
-
-        }
-      );
-
-    volumeSeries =
-      chart.addSeries(
-        LightweightCharts.HistogramSeries,
-        {
-
-          priceFormat: {
-            type: "volume"
-          },
-
-          priceScaleId: ""
-
-        }
-      );
-
-    volumeSeries.priceScale().applyOptions({
-
-      scaleMargins: {
-        top: 0.78,
-        bottom: 0
-      }
-
-    });
-
-    chart.applyOptions({
-
-      localization: {
-
-        priceFormatter:
-          price =>
-            formatPrice(price)
-
-      }
-
-    });
-
-    window.addEventListener(
-      "resize",
-      resizeChart
-    );
-  }
-
-  function resizeChart() {
-
-    if (!chart) return;
-
-    const width =
-      $("chart").clientWidth;
-
-    const height =
-      $("chart").clientHeight;
-
-    chart.resize(
-      width,
-      height
-    );
-  }
-
-  function renderChart(candles) {
-
-    if (!chart) {
-      createChart();
-    }
-
-    const chartData =
-      candles.map(c => ({
-
-        time: c.time,
-
-        open: c.open,
-
-        high: c.high,
-
-        low: c.low,
-
-        close: c.close
-
-      }));
-
-    candleSeries.setData(
-      chartData
-    );
-
-    const volumeData =
-      candles.map(c => ({
-
-        time: c.time,
-
-        value: c.volume,
-
-        color:
-          c.close >= c.open
-            ? "rgba(34,197,94,0.35)"
-            : "rgba(239,68,68,0.35)"
-
-      }));
-
-    volumeSeries.setData(
-      volumeData
-    );
-
-    const zones =
-      findZones(candles);
-
-    if (zones.support) {
-
-      candleSeries.createPriceLine({
-
-        price:
-          zones.support.high,
-
-        color:
-          "#22c55e",
-
-        lineWidth: 1,
-
-        lineStyle:
-          LightweightCharts.LineStyle.Dashed,
-
-        axisLabelVisible: true,
-
-        title: "Support"
-
-      });
-
-    }
-
-    if (zones.resistance) {
-
-      candleSeries.createPriceLine({
-
-        price:
-          zones.resistance.low,
-
-        color:
-          "#ef4444",
-
-        lineWidth: 1,
-
-        lineStyle:
-          LightweightCharts.LineStyle.Dashed,
-
-        axisLabelVisible: true,
-
-        title: "Resistance"
-
-      });
-
-    }
-
-    chart.timeScale()
-      .fitContent();
-
-    setTimeout(
-      resizeChart,
-      50
-    );
-  }
-
-  /*
-   * =========================================================
-   * UI
-   * =========================================================
-   */
-
-  function renderMainAnalysis() {
-
-    const candles =
-      allData[activeTimeframe];
-
-    if (
-      !candles ||
-      candles.length < 21
-    ) {
+    if (!file) {
+      preview.style.display = "none";
       return;
     }
 
-    const analysis =
-      calculateTrendScore(candles);
+    const url = URL.createObjectURL(file);
 
-    const direction =
-      directionFromScore(
-        analysis.score
-      );
+    preview.src = url;
+    preview.style.display = "block";
 
-    $("mainDirection").textContent =
-      direction.symbol;
+  });
 
-    $("mainDirection").className =
-      "direction " +
-      direction.className;
+}
 
-    $("directionText").textContent =
-      direction.text +
-      " · " +
-      TIMEFRAMES[activeTimeframe].label;
 
-    $("mainScore").textContent =
-      (
-        analysis.score >= 0
-          ? "+"
-          : ""
-      ) +
-      analysis.score.toFixed(1);
+setupPreview("btcInput", "btcPreview");
 
-    $("mainScore").className =
-      "score " +
-      direction.className;
+setupPreview("usdtInput", "usdtPreview");
 
-    $("metricChange").textContent =
-      formatPercent(
-        analysis.change
-      );
+setupPreview("marketInput", "marketPreview");
 
-    $("metricSlope").textContent =
-      analysis.slope.toFixed(4) +
-      "%";
+setupPreview("targetInput", "targetPreview");
 
-    $("metricConsistency").textContent =
-      analysis.consistency.toFixed(1) +
-      "%";
 
-    $("metricTrend").textContent =
-      (
-        analysis.score >= 0
-          ? "+"
-          : ""
-      ) +
-      analysis.score.toFixed(1);
+function startAnalysis() {
 
-    $("metricMomentum").textContent =
-      formatPercent(
-        analysis.momentum
-      );
+  const btc =
+    document.getElementById("btcInput").files[0];
 
-    $("metricVolume").textContent =
-      (
-        analysis.volume >= 0
-          ? "+"
-          : ""
-      ) +
-      analysis.volume.toFixed(1);
+  const usdt =
+    document.getElementById("usdtInput").files[0];
 
-    const zones =
-      findZones(candles);
+  const market =
+    document.getElementById("marketInput").files[0];
 
-    if (zones.support) {
+  const target =
+    document.getElementById("targetInput").files[0];
 
-      $("supportZone").textContent =
-        formatPrice(
-          zones.support.low
-        ) +
-        " — " +
-        formatPrice(
-          zones.support.high
-        );
-    }
 
-    if (zones.resistance) {
+  if (!btc && !usdt && !market && !target) {
 
-      $("resistanceZone").textContent =
-        formatPrice(
-          zones.resistance.low
-        ) +
-        " — " +
-        formatPrice(
-          zones.resistance.high
-        );
-    }
+    document.getElementById("status").textContent =
+      "⚠️ حداقل یک چارت انتخاب کن.";
 
-    $("candleCount").textContent =
-      candles.length;
-
-    renderCandleTable(
-      candles.slice(-21)
-    );
+    return;
   }
 
-  function renderMultiTimeframe() {
 
-    const results =
-      calculateMultiTimeframe();
+  document.getElementById("status").textContent =
+    "⏳ چارت‌ها دریافت شدند؛ آماده تحلیل...";
 
-    const grid =
-      $("tfGrid");
 
-    grid.innerHTML = "";
+  document.getElementById("result").style.display =
+    "block";
 
-    if (!results.length) {
 
-      grid.innerHTML =
-        '<div class="loading">داده کافی نیست</div>';
+  document.getElementById("btcResult").textContent =
+    btc ? "دریافت شد" : "نداریم";
 
-      return;
-    }
+  document.getElementById("usdtResult").textContent =
+    usdt ? "دریافت شد" : "نداریم";
 
-    let weightedScore = 0;
+  document.getElementById("marketResult").textContent =
+    market ? "دریافت شد" : "نداریم";
 
-    let totalWeight = 0;
+  document.getElementById("targetResult").textContent =
+    target ? "دریافت شد" : "نداریم";
 
-    const weights = {
-
-      "1h": 1,
-
-      "4h": 1.2,
-
-      "1d": 1.5,
-
-      "1w": 1.8,
-
-      "1M": 2
-
-    };
-
-    results.forEach(result => {
-
-      const weight =
-        weights[result.tf] || 1;
-
-      weightedScore +=
-        result.score * weight;
-
-      totalWeight +=
-        weight;
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-      card.className =
-        "tf-card";
-
-      card.innerHTML = `
-
-        <div class="tf-name">
-          ${result.label}
-        </div>
-
-        <div class="tf-direction ${result.direction.className}">
-          ${result.direction.symbol}
-        </div>
-
-        <div class="tf-score ${result.direction.className}">
-          ${result.score >= 0 ? "+" : ""}
-          ${result.score.toFixed(1)}
-        </div>
-
-      `;
-
-      grid.appendChild(card);
-    });
-
-    const finalScore =
-      totalWeight
-        ? weightedScore / totalWeight
-        : 0;
-
-    const finalDirection =
-      directionFromScore(
-        finalScore
-      );
-
-    /*
-     * فقط جهت نهایی MTF
-     */
-
-    $("mainDirection").textContent =
-      finalDirection.symbol;
-
-    $("mainDirection").className =
-      "direction " +
-      finalDirection.className;
-
-    $("directionText").textContent =
-      "Multi-Timeframe · " +
-      finalDirection.text;
-
-    $("mainScore").textContent =
-      (
-        finalScore >= 0
-          ? "+"
-          : ""
-      ) +
-      finalScore.toFixed(1);
-
-    $("mainScore").className =
-      "score " +
-      finalDirection.className;
-  }
-
-  function renderCandleTable(candles) {
-
-    const tbody =
-      $("candleTable");
-
-    tbody.innerHTML = "";
-
-    [...candles]
-      .reverse()
-      .forEach(c => {
-
-        const tr =
-          document.createElement(
-            "tr"
-          );
-
-        const date =
-          new Date(
-            c.time * 1000
-          );
-
-        const time =
-          date.toLocaleString(
-            "fa-IR",
-            {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit"
-            }
-          );
-
-        const change =
-          c.close >= c.open
-            ? "positive"
-            : "negative";
-
-        tr.innerHTML = `
-
-          <td>${time}</td>
-
-          <td>${formatPrice(c.open)}</td>
-
-          <td>${formatPrice(c.high)}</td>
-
-          <td>${formatPrice(c.low)}</td>
-
-          <td class="${change}">
-            ${formatPrice(c.close)}
-          </td>
-
-          <td>
-            ${formatVolume(c.volume)}
-          </td>
-
-        `;
-
-        tbody.appendChild(tr);
-
-      });
-  }
-
-  function renderTicker(ticker) {
-
-    const last =
-      Number(ticker.lastPrice);
-
-    const change =
-      Number(ticker.priceChangePercent);
-
-    $("price").textContent =
-      formatPrice(last) +
-      " USDT";
-
-    $("change").textContent =
-      "24h: " +
-      formatPercent(change);
-
-    $("change").className =
-      "price-change " +
-      (
-        change > 0
-          ? "positive"
-          : change < 0
-            ? "negative"
-            : "neutral"
-      );
-  }
 
   /*
-   * =========================================================
-   * LOAD
-   * =========================================================
-   */
+    فعلاً تحلیل واقعی نداریم.
+    در مرحله بعد این قسمت به موتور تحلیل وصل می‌شود.
+  */
 
-  async function loadAllTimeframes() {
+  document.getElementById("decisionValue").textContent =
+    "WAIT";
 
-    hideError();
-
-    setStatus(
-      "دریافت داده واقعی...",
-      ""
-    );
-
-    try {
-
-      const promises =
-        Object.entries(
-          TIMEFRAMES
-        ).map(
-          async ([key, config]) => {
-
-            const candles =
-              await fetchKlines(
-                config.interval,
-                config.limit
-              );
-
-            allData[key] =
-              candles;
-
-          }
-        );
-
-      await Promise.all(
-        promises
-      );
-
-      const ticker =
-        await fetchTicker();
-
-      renderTicker(
-        ticker
-      );
-
-      setStatus(
-        "متصل · داده واقعی",
-        "online"
-      );
-
-      const activeData =
-        allData[
-          activeTimeframe
-        ];
-
-      renderChart(
-        activeData
-      );
-
-      renderMainAnalysis();
-
-      renderMultiTimeframe();
-
-      $("chartInfo").textContent =
-        "BINANCE:" +
-        SYMBOL +
-        " · " +
-        TIMEFRAMES[
-          activeTimeframe
-        ].label +
-        " · " +
-        activeData.length +
-        " candles";
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      showError(
-        "دریافت داده از Binance انجام نشد. " +
-        "اگر صفحه باز می‌شود ولی داده نمی‌آید، احتمالاً " +
-        "اتصال شبکه به API صرافی محدود شده است. " +
-        "خطا: " +
-        error.message
-      );
-    }
-  }
-
-  /*
-   * =========================================================
-   * TIMEFRAME BUTTONS
-   * =========================================================
-   */
-
-  document
-    .querySelectorAll(
-      "[data-tf]"
-    )
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelectorAll(
-              "[data-tf]"
-            )
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "active"
-                )
-            );
-
-          button.classList.add(
-            "active"
-          );
-
-          activeTimeframe =
-            button.dataset.tf;
-
-          const candles =
-            allData[
-              activeTimeframe
-            ];
-
-          if (!candles) {
-
-            loadAllTimeframes();
-
-            return;
-          }
-
-          renderChart(
-            candles
-          );
-
-          renderMainAnalysis();
-
-          renderMultiTimeframe();
-
-          $("chartInfo").textContent =
-            "BINANCE:" +
-            SYMBOL +
-            " · " +
-            TIMEFRAMES[
-              activeTimeframe
-            ].label +
-            " · " +
-            candles.length +
-            " candles";
-        }
-      );
-
-    });
-
-  /*
-   * =========================================================
-   * START
-   * =========================================================
-   */
-
-  loadAllTimeframes();
-
-  setInterval(
-    loadAllTimeframes,
-    REFRESH_MS
-  );
+}
 
 </script>
 
